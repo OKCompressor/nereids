@@ -1,0 +1,10 @@
+{
+  "fixture_sha256": "f5253619085dd022dd1ce2daad26de32f3aa93e324d59a1b77e6d62811507fe3",
+  "input_byte_length": 70,
+  "input_file": "fixtures/multilingual.txt",
+  "input_sha256": "eb738cd68c2b4beb0b8d98a6652eb5c1b818ce3d76e1819acf8a9d072ec46b9e",
+  "tiktoken_version": "0.14.0",
+  "token_count": 24,
+  "tokenizer_name": "cl100k_base",
+  "tokenizer_provenance": "tiktoken==0.14.0"
+}

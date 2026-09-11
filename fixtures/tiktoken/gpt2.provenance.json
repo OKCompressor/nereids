@@ -1,0 +1,10 @@
+{
+  "fixture_sha256": "5f71c92cf962b4f276ac40c96c6986495ef2fc572b9baf8b5450fdf1db65fae5",
+  "input_byte_length": 70,
+  "input_file": "fixtures/multilingual.txt",
+  "input_sha256": "eb738cd68c2b4beb0b8d98a6652eb5c1b818ce3d76e1819acf8a9d072ec46b9e",
+  "tiktoken_version": "0.14.0",
+  "token_count": 30,
+  "tokenizer_name": "gpt2",
+  "tokenizer_provenance": "tiktoken==0.14.0"
+}

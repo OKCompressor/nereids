@@ -1,0 +1,25 @@
+/target/
+/release-staging/
+
+# Generated receipts stay local.
+/receipts/*
+!/receipts/.gitkeep
+!/receipts/README.md
+
+# Keep legacy source; ignore generated legacy receipts.
+/legacy/python/receipts-nereid/
+
+# Local worker/task material.
+CODEX_TASK.md
+
+# Models / generated artifacts.
+*.gguf
+*.bin
+*.safetensors
+*.tar
+*.tar.gz
+*.zst
+
+.DS_Store
+*.swp
+*~
