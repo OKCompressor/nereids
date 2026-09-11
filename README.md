@@ -117,8 +117,13 @@ Current DU3 integration evidence includes exact roundtrip work on the
 100,000,000-byte Hutter `enwik8` corpus. Performance figures are kept separate
 from tokenizer and model-inference measurements.
 
-A stable public DU3 repository/spec link will be added here once its canonical
-public location is fixed.
+The current public DU3 V1G binary release, validation receipts, hashes, and
+release metadata are published through OKCompressor/core:
+
+https://github.com/OKCompressor/core/releases/tag/modules-alpha-20260911
+
+DU3 remains a separate module; Nereids consumes its structural byte/span view
+without claiming ownership of DU3's release state.
 
 ## Benchmark lanes
 

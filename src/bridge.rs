@@ -508,28 +508,43 @@ pub fn align_token_spans(
     right: &TokenizerStream,
 ) -> Result<Vec<TokenSpanAlignment>> {
     validate_pair(left, right)?;
-    let right_bounds: Vec<usize> = right
-        .tokens
-        .iter()
-        .map(|token| token.byte_start)
-        .chain(right.tokens.last().map(|token| token.byte_end))
-        .collect();
+
+    /*
+     * Both streams are validated as ordered, contiguous partitions of the
+     * same raw byte stream. Their cursors therefore only move forward.
+     *
+     * This is O(left_tokens + right_tokens), rather than rescanning or doing
+     * an independent binary search of the right stream for each left token.
+     */
     let mut output = Vec::with_capacity(left.tokens.len());
+    let mut right_start = 0usize;
+    let mut right_end = 0usize;
+
     for (left_index, left_token) in left.tokens.iter().enumerate() {
         let start = left_token.byte_start;
         let end = left_token.byte_end;
-        let right_start = right
-            .tokens
-            .iter()
-            .position(|token| token.byte_end > start)
-            .unwrap_or(right.tokens.len());
-        let right_end = right
-            .tokens
-            .iter()
-            .position(|token| token.byte_start >= end)
-            .unwrap_or(right.tokens.len());
-        let starts_on_boundary = right_bounds.binary_search(&start).is_ok();
-        let ends_on_boundary = right_bounds.binary_search(&end).is_ok();
+
+        while right_start < right.tokens.len() && right.tokens[right_start].byte_end <= start {
+            right_start += 1;
+        }
+
+        if right_end < right_start {
+            right_end = right_start;
+        }
+
+        while right_end < right.tokens.len() && right.tokens[right_end].byte_start < end {
+            right_end += 1;
+        }
+
+        let starts_on_boundary =
+            right_start < right.tokens.len() && right.tokens[right_start].byte_start == start;
+
+        let ends_on_boundary = if right_end < right.tokens.len() {
+            right.tokens[right_end].byte_start == end
+        } else {
+            end == right.raw_len
+        };
+
         output.push(TokenSpanAlignment {
             left_token_index: left_index,
             left_token_id: left_token.id,
@@ -542,6 +557,7 @@ pub fn align_token_spans(
             ends_on_right_boundary: ends_on_boundary,
         });
     }
+
     Ok(output)
 }
 
@@ -657,6 +673,88 @@ mod tests {
 
     fn stream(name: &str, raw: &[u8], tokens: Vec<NativeToken>) -> TokenizerStream {
         TokenizerStream::new(name, format!("test:{name}"), raw, tokens).unwrap()
+    }
+
+    fn partition_stream(name: &str, raw: &[u8], mask: usize) -> TokenizerStream {
+        let mut tokens = Vec::new();
+        let mut start = 0usize;
+        let mut id = 1u64;
+
+        for boundary in 1..raw.len() {
+            if mask & (1usize << (boundary - 1)) != 0 {
+                tokens.push(token(id, start, boundary, &raw[start..boundary]));
+                id += 1;
+                start = boundary;
+            }
+        }
+
+        tokens.push(token(id, start, raw.len(), &raw[start..]));
+        stream(name, raw, tokens)
+    }
+
+    fn reference_align(left: &TokenizerStream, right: &TokenizerStream) -> Vec<TokenSpanAlignment> {
+        let right_bounds: Vec<usize> = right
+            .tokens
+            .iter()
+            .map(|token| token.byte_start)
+            .chain(right.tokens.last().map(|token| token.byte_end))
+            .collect();
+
+        left.tokens
+            .iter()
+            .enumerate()
+            .map(|(left_index, left_token)| {
+                let start = left_token.byte_start;
+                let end = left_token.byte_end;
+
+                let right_start = right
+                    .tokens
+                    .iter()
+                    .position(|token| token.byte_end > start)
+                    .unwrap_or(right.tokens.len());
+
+                let right_end = right
+                    .tokens
+                    .iter()
+                    .position(|token| token.byte_start >= end)
+                    .unwrap_or(right.tokens.len());
+
+                TokenSpanAlignment {
+                    left_token_index: left_index,
+                    left_token_id: left_token.id,
+                    left_byte_start: start,
+                    left_byte_end: end,
+                    right_start_index: right_start,
+                    right_end_index_exclusive: right_end,
+                    right_token_count: right_end.saturating_sub(right_start),
+                    starts_on_right_boundary: right_bounds.binary_search(&start).is_ok(),
+                    ends_on_right_boundary: right_bounds.binary_search(&end).is_ok(),
+                }
+            })
+            .collect()
+    }
+
+    #[test]
+    fn linear_alignment_matches_reference_for_all_small_partitions() {
+        let raw = b"abcdefgh";
+        let partitions = 1usize << (raw.len() - 1);
+
+        for left_mask in 0..partitions {
+            let left = partition_stream("left", raw, left_mask);
+
+            for right_mask in 0..partitions {
+                let right = partition_stream("right", raw, right_mask);
+
+                let expected = reference_align(&left, &right);
+                let actual = align_token_spans(&left, &right).unwrap();
+
+                assert_eq!(
+                    actual, expected,
+                    "partition mismatch left_mask={left_mask:#09b} \
+                     right_mask={right_mask:#09b}"
+                );
+            }
+        }
     }
 
     #[test]
