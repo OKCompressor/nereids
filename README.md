@@ -101,6 +101,56 @@ token boundaries to match.
 
 The invariant is exact reconstruction of the canonical byte stream.
 
+## Related work
+
+### DU3
+
+Nereids is designed to interoperate with DU-style structural byte/span
+representations.
+
+DU3 is a separate structural codec/research line used in Nereids integration
+and benchmark work. Nereids does not require native tokenizer IDs to match DU
+positions; the shared invariant is exact reconstruction of the canonical byte
+stream.
+
+Current DU3 integration evidence includes exact roundtrip work on the
+100,000,000-byte Hutter `enwik8` corpus. Performance figures are kept separate
+from tokenizer and model-inference measurements.
+
+A stable public DU3 repository/spec link will be added here once its canonical
+public location is fixed.
+
+## Benchmark lanes
+
+Nereids keeps different claims in separate benchmark lanes:
+
+```text
+A. Hard corpus / structural scaling
+   enwik8 prefixes -> GPT-2 / cl100k / DU3 / Nereids
+
+B. Frozen real model output
+   exact model-output bytes -> source tokenizer -> Nereids -> target tokenizer
+
+C. Conversation snapshot + delta
+   full retokenization
+        vs
+   structural snapshot + delta + repair tail
+```
+
+`enwik8` is used as deterministic long-input pressure, not as a claim that it
+models natural conversation.
+
+The stronger long-context gate for future incremental work is:
+
+```text
+native_full_tokenize(prefix || delta)
+==
+nereids_incremental_native_ids(prefix, delta)
+```
+
+Until that equality is demonstrated for a real tokenizer, Nereids does not
+claim native-ID-equivalent incremental tokenization.
+
 ## Adapter maturity
 
 Adapters and integrations should progress through explicit evidence levels:
