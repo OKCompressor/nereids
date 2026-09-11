@@ -6,8 +6,10 @@ use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 mod bridge;
+mod du_remap;
 
 pub use bridge::*;
+pub use du_remap::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SpanRecord {
