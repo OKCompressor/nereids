@@ -11,7 +11,8 @@ Adapter status is deliberately conservative:
 | Legacy cl100k/model.bin remap | LEGACY RECEIPT-BACKED |
 | GPT-2 / tiktoken prototype paths | LEGACY / NEEDS NATIVE ADAPTER |
 | Qwen | WANTED |
-| Mistral | WANTED |
+| Mistral Nemo / Tekken-v3 structural bridge | RECEIPT-BACKED |
+| Mistral canonical native adapter | WANTED |
 | Llama / llama.cpp | WANTED |
 | DeepSeek | WANTED |
 | Gemma | WANTED |
