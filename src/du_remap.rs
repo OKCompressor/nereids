@@ -12,6 +12,105 @@ use std::fs::{self, File};
 use std::io::{BufRead, BufReader, Read, Write};
 use std::path::{Path, PathBuf};
 
+#[derive(Debug, Clone, Default)]
+struct GreedyTrieNode {
+    terminal_id: Option<u32>,
+    children: Vec<(u8, usize)>,
+}
+
+#[derive(Debug, Clone)]
+struct GreedyTrie {
+    roots: [Option<usize>; 256],
+    nodes: Vec<GreedyTrieNode>,
+}
+
+impl GreedyTrie {
+    fn new() -> Self {
+        Self {
+            roots: [None; 256],
+            nodes: Vec::new(),
+        }
+    }
+
+    fn alloc_node(&mut self) -> usize {
+        let index = self.nodes.len();
+        self.nodes.push(GreedyTrieNode::default());
+        index
+    }
+
+    fn insert(&mut self, token: &[u8], id: u32) {
+        debug_assert!(!token.is_empty());
+
+        let first = token[0] as usize;
+
+        let mut node_index = match self.roots[first] {
+            Some(index) => index,
+            None => {
+                let index = self.alloc_node();
+                self.roots[first] = Some(index);
+                index
+            }
+        };
+
+        for &byte in &token[1..] {
+            let next = self.nodes[node_index]
+                .children
+                .iter()
+                .find_map(|(edge, index)| (*edge == byte).then_some(*index));
+
+            node_index = match next {
+                Some(index) => index,
+                None => {
+                    let index = self.alloc_node();
+                    self.nodes[node_index].children.push((byte, index));
+                    index
+                }
+            };
+        }
+
+        // Preserve the old greedy tie-break:
+        // longest token first, then lowest native ID for duplicate bytes.
+        let terminal = &mut self.nodes[node_index].terminal_id;
+        if terminal.as_ref().map_or(true, |old| id < *old) {
+            *terminal = Some(id);
+        }
+    }
+
+    fn finish(&mut self) {
+        for node in &mut self.nodes {
+            node.children.sort_unstable_by_key(|(byte, _)| *byte);
+        }
+    }
+
+    fn longest_match(&self, bytes: &[u8], offset: usize) -> Option<(u32, usize)> {
+        let first = *bytes.get(offset)?;
+        let mut node_index = self.roots[first as usize]?;
+        let mut length = 1usize;
+
+        let mut best = self.nodes[node_index].terminal_id.map(|id| (id, length));
+
+        while offset + length < bytes.len() {
+            let byte = bytes[offset + length];
+            let node = &self.nodes[node_index];
+
+            let child_position = match node.children.binary_search_by_key(&byte, |(edge, _)| *edge)
+            {
+                Ok(position) => position,
+                Err(_) => break,
+            };
+
+            node_index = node.children[child_position].1;
+            length += 1;
+
+            if let Some(id) = self.nodes[node_index].terminal_id {
+                best = Some((id, length));
+            }
+        }
+
+        best
+    }
+}
+
 /// Target vocabulary bytes indexed by their preserved target IDs.
 #[derive(Debug, Clone)]
 pub struct TargetVocab {
@@ -19,6 +118,7 @@ pub struct TargetVocab {
     pub first_byte_buckets: Vec<Vec<u32>>,
     pub max_token_bytes: usize,
     pub model_bin_bytes: u64,
+    greedy_trie: GreedyTrie,
 }
 
 impl TargetVocab {
@@ -39,6 +139,8 @@ impl TargetVocab {
     fn from_tokens_with_model_size(tokens: Vec<Vec<u8>>, model_bin_bytes: u64) -> Result<Self> {
         let mut first_byte_buckets = vec![Vec::new(); 256];
         let mut max_token_bytes = 0;
+        let mut greedy_trie = GreedyTrie::new();
+
         for (id, token) in tokens.iter().enumerate() {
             if token.is_empty() {
                 continue;
@@ -46,6 +148,7 @@ impl TargetVocab {
             let id = u32::try_from(id).context("target vocabulary ID exceeds u32")?;
             first_byte_buckets[token[0] as usize].push(id);
             max_token_bytes = max_token_bytes.max(token.len());
+            greedy_trie.insert(token, id);
         }
         for bucket in &mut first_byte_buckets {
             bucket.sort_by(|left, right| {
@@ -55,11 +158,14 @@ impl TargetVocab {
                     .then_with(|| left.cmp(right))
             });
         }
+        greedy_trie.finish();
+
         Ok(Self {
             tokens,
             first_byte_buckets,
             max_token_bytes,
             model_bin_bytes,
+            greedy_trie,
         })
     }
 
@@ -74,26 +180,27 @@ impl TargetVocab {
             .ok_or_else(|| anyhow!("target vocabulary ID {} is out of range", id))
     }
 
-    /// Longest-byte-match greedy segmentation using the first-byte buckets.
+    /// Longest-byte-match greedy segmentation using the target byte trie.
     pub fn greedy_encode(&self, bytes: &[u8]) -> Result<Vec<u32>> {
         let mut ids = Vec::new();
         let mut offset = 0;
+
         while offset < bytes.len() {
-            let candidates = &self.first_byte_buckets[bytes[offset] as usize];
-            let hit = candidates.iter().copied().find(|id| {
-                let token = &self.tokens[*id as usize];
-                bytes[offset..].starts_with(token)
-            });
-            let id = hit.ok_or_else(|| {
-                anyhow!(
-                    "no target vocabulary token at byte offset {} (byte 0x{:02x})",
-                    offset,
-                    bytes[offset]
-                )
-            })?;
-            offset += self.tokens[id as usize].len();
+            let (id, token_len) =
+                self.greedy_trie
+                    .longest_match(bytes, offset)
+                    .ok_or_else(|| {
+                        anyhow!(
+                            "no target vocabulary token at byte offset {} (byte 0x{:02x})",
+                            offset,
+                            bytes[offset]
+                        )
+                    })?;
+
             ids.push(id);
+            offset += token_len;
         }
+
         Ok(ids)
     }
 
@@ -432,6 +539,12 @@ mod tests {
 
     fn vocab(tokens: &[&[u8]]) -> TargetVocab {
         TargetVocab::from_tokens(tokens.iter().map(|token| token.to_vec()).collect()).unwrap()
+    }
+
+    #[test]
+    fn greedy_encode_prefers_longest_then_lowest_duplicate_id() {
+        let target = vocab(&[b"a", b"ab", b"ab", b"b"]);
+        assert_eq!(target.greedy_encode(b"abab").unwrap(), &[1, 1]);
     }
 
     #[test]
