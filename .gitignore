@@ -23,3 +23,6 @@ CODEX_TASK.md
 .DS_Store
 *.swp
 *~
+
+__pycache__/
+*.py[cod]

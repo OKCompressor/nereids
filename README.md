@@ -40,6 +40,11 @@ Implemented and tested:
 - target tokens crossing multiple structural spans
 - public GPT-2 and `cl100k_base` tiktoken fixtures
 - deterministic fixture regeneration and verification
+- receipt-backed Mistral Nemo / Tekken-v3 target-vocabulary integration:
+  - real DU3-v1g over the full 100,000,000-byte `enwik8`
+  - zero unmappable DU dictionary entries
+  - exact reconstruction through native Mistral vocabulary IDs
+  - canonical Tekken-v3 boundary analysis over the same corpus
 
 The checked-in tiktoken fixtures use the same 70-byte multilingual input:
 
@@ -172,10 +177,17 @@ RECEIPT-BACKED
 
 See [`docs/ADAPTERS.md`](docs/ADAPTERS.md).
 
+Current receipt-backed target work includes **Mistral Nemo / Tekken-v3**.
+The exact-byte DU3 → native-vocabulary projection is proven over the full
+100 MB `enwik8`; canonical target-ID runtime composition remains a separate
+experimental gate.
+
+See the
+[Mistral Nemo / Tekken-v3 enwik8 receipt note](docs/benchmarks/mistral-nemo-tekken-v3-enwik8-poc-20260914.md).
+
 Contributions for additional tokenizer families are welcome, including:
 
 - Qwen
-- Mistral
 - Llama / llama.cpp
 - DeepSeek
 - Gemma

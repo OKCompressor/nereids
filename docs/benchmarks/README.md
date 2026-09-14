@@ -11,6 +11,12 @@ Public benchmark notes summarize reproducible receipts without checking large ge
   - exact reconstructed SHA-256
   - canonical BPE-equivalent segmentation is **not** claimed
 
+- [Mistral Nemo / Tekken-v3 — DU3 enwik8 PoC](./mistral-nemo-tekken-v3-enwik8-poc-20260914.md)
+  - real DU3-v1g over `100,000,000` bytes
+  - exact projection into the Mistral Nemo native vocabulary namespace
+  - canonical Tekken boundary analysis over the same corpus
+  - zero unmappable DU entries; exact byte reconstruction
+
 ## Related public surfaces
 
 - [Nereids project](https://github.com/OKCompressor/nereids)
