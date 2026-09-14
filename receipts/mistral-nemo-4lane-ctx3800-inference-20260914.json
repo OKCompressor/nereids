@@ -1,0 +1,1379 @@
+{
+  "schema": "nereids-llama-native-id-4lane-inference-v1",
+  "endpoint": "http://127.0.0.1:8081/completion",
+  "artifact_dir": "/tmp/nereids-4lane-ctx3800-pc2",
+  "source_report_sha256": "66b785f4d00117c992132f506f6c564b5bf0209ee0c56ada1549f5aad9e35f9d",
+  "source_sha256": "5baa7297379bfe44e0f3e7d6ae247f716b2c3b5c67610f1d5a8cfbc5fc50f5f4",
+  "source_bytes": 8356,
+  "temperature": 0.0,
+  "ctx": 4096,
+  "requested_generation_tokens": 128,
+  "repeats": 3,
+  "execution_note": "Requests contain explicit native numeric token IDs. The inference runner performs no tokenization. Mode names cold/warm describe the request artifact's cache_prompt setting; actual runtime reuse is reported from llama.cpp response fields and must be interpreted from measured behavior rather than assumed.",
+  "runs": [
+    {
+      "lane": "A_per_gid_greedy",
+      "mode": "cold",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/A_per_gid_greedy.cold.request.json",
+      "request_sha256": "26690070c4e49357fca3575451ef39729bfec06d6c0ec0f44ef50a4d651e86a6",
+      "request_prompt_ids": 3803,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/A_per_gid_greedy.cold.run1.response.json",
+      "response_sha256": "521c7a26a23945654a1952833a9113164bbb45447ddc19a1ad0cc38764c80290",
+      "client_wall_ns": 34375842861,
+      "client_wall_ms": 34375.842861,
+      "tokens_evaluated": 3803,
+      "tokens_predicted": 128,
+      "tokens_cached": 3930,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251",
+      "content_sha256": "94829cfd5a77b81ede5b6a428346e044e36da42cb768d855d54acb5397eaddd7",
+      "content": "It seems like you've provided a MediaWiki XML export file containing redirects from a Wikipedia page. Here's a simplified breakdown of the data:\n\n1. **Site Information:**\n   - Site Name: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case Sensitivity: First-letter\n   - Namespaces: There are 16 namespaces defined, including Media, Special, Main, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 3,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 3803,
+        "prompt_ms": 22565.367,
+        "prompt_per_token_ms": 5.933570076255587,
+        "prompt_per_second": 168.53260130889961,
+        "predicted_n": 128,
+        "predicted_ms": 11739.927,
+        "predicted_per_token_ms": 92.44037007874016,
+        "predicted_per_second": 10.817784471743309
+      }
+    },
+    {
+      "lane": "A_per_gid_greedy",
+      "mode": "cold",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/A_per_gid_greedy.cold.request.json",
+      "request_sha256": "26690070c4e49357fca3575451ef39729bfec06d6c0ec0f44ef50a4d651e86a6",
+      "request_prompt_ids": 3803,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/A_per_gid_greedy.cold.run2.response.json",
+      "response_sha256": "52cb410f5fec665267584a05c5f4f9c33cd8fe42ca178fa5ed1ae4056e8c408f",
+      "client_wall_ns": 33856528552,
+      "client_wall_ms": 33856.528552,
+      "tokens_evaluated": 3803,
+      "tokens_predicted": 128,
+      "tokens_cached": 3930,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251",
+      "content_sha256": "94829cfd5a77b81ede5b6a428346e044e36da42cb768d855d54acb5397eaddd7",
+      "content": "It seems like you've provided a MediaWiki XML export file containing redirects from a Wikipedia page. Here's a simplified breakdown of the data:\n\n1. **Site Information:**\n   - Site Name: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case Sensitivity: First-letter\n   - Namespaces: There are 16 namespaces defined, including Media, Special, Main, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 3,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 3803,
+        "prompt_ms": 22109.205,
+        "prompt_per_token_ms": 5.813622140415462,
+        "prompt_per_second": 172.00980315664899,
+        "predicted_n": 128,
+        "predicted_ms": 11743.314,
+        "predicted_per_token_ms": 92.46703937007874,
+        "predicted_per_second": 10.814664412447797
+      }
+    },
+    {
+      "lane": "A_per_gid_greedy",
+      "mode": "cold",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/A_per_gid_greedy.cold.request.json",
+      "request_sha256": "26690070c4e49357fca3575451ef39729bfec06d6c0ec0f44ef50a4d651e86a6",
+      "request_prompt_ids": 3803,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/A_per_gid_greedy.cold.run3.response.json",
+      "response_sha256": "fbcd7b1f0aa38db1e6415f23863c337899bc84f95bff2d2c4d6b4b093f5dd0ea",
+      "client_wall_ns": 33856368081,
+      "client_wall_ms": 33856.368081,
+      "tokens_evaluated": 3803,
+      "tokens_predicted": 128,
+      "tokens_cached": 3930,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "1407dba81692fa32c3590ab9a08cd29ae29ea757a6b5affb45d7839927aca5e9",
+      "content_sha256": "370586f9b12ebd8ec5b517f8371db0165924fa15ff77f5bb042259675d175ae1",
+      "content": "It seems like you've provided a MediaWiki XML export file containing several pages with redirects. Here's a summary of the pages and their corresponding redirects:\n\n1. **Page: AaA**\n   - Redirects to: [[AAA]]\n   - Last updated by: Jsmathers (614213) on 2005-12-27T18:46:47Z\n\n2. **Page: Algeria**\n   - Redirects to: [[Algeria]]\n   - Last updated by: Docu (8029) on 2005",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 3,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 3803,
+        "prompt_ms": 22140.595,
+        "prompt_per_token_ms": 5.821876150407573,
+        "prompt_per_second": 171.76593492631972,
+        "predicted_n": 128,
+        "predicted_ms": 11710.858,
+        "predicted_per_token_ms": 92.21148031496062,
+        "predicted_per_second": 10.844636661122523
+      }
+    },
+    {
+      "lane": "A_per_gid_greedy",
+      "mode": "warm",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/A_per_gid_greedy.warm.request.json",
+      "request_sha256": "f120f17e14e42337939c49a8c2aad970ec90afec928a78ff681f3188314a2d43",
+      "request_prompt_ids": 3803,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/A_per_gid_greedy.warm.run1.response.json",
+      "response_sha256": "4433e243c5cb0c7f04d40d58610da1d32d15cb620b924e2c19f5ca6ed6011c9d",
+      "client_wall_ns": 11807875720,
+      "client_wall_ms": 11807.87572,
+      "tokens_evaluated": 3803,
+      "tokens_predicted": 128,
+      "tokens_cached": 3930,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251",
+      "content_sha256": "94829cfd5a77b81ede5b6a428346e044e36da42cb768d855d54acb5397eaddd7",
+      "content": "It seems like you've provided a MediaWiki XML export file containing redirects from a Wikipedia page. Here's a simplified breakdown of the data:\n\n1. **Site Information:**\n   - Site Name: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case Sensitivity: First-letter\n   - Namespaces: There are 16 namespaces defined, including Media, Special, Main, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 3,
+      "timings": {
+        "cache_n": 3802,
+        "prompt_n": 1,
+        "prompt_ms": 98.046,
+        "prompt_per_token_ms": 98.046,
+        "prompt_per_second": 10.199294208840747,
+        "predicted_n": 128,
+        "predicted_ms": 11705.668,
+        "predicted_per_token_ms": 92.17061417322834,
+        "predicted_per_second": 10.849444901393069
+      }
+    },
+    {
+      "lane": "A_per_gid_greedy",
+      "mode": "warm",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/A_per_gid_greedy.warm.request.json",
+      "request_sha256": "f120f17e14e42337939c49a8c2aad970ec90afec928a78ff681f3188314a2d43",
+      "request_prompt_ids": 3803,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/A_per_gid_greedy.warm.run2.response.json",
+      "response_sha256": "4fd4419d1cf7db167eb3990546eaab0078c0063a3ddfd452df11aeef0d57cfab",
+      "client_wall_ns": 11841913055,
+      "client_wall_ms": 11841.913055,
+      "tokens_evaluated": 3803,
+      "tokens_predicted": 128,
+      "tokens_cached": 3930,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251",
+      "content_sha256": "94829cfd5a77b81ede5b6a428346e044e36da42cb768d855d54acb5397eaddd7",
+      "content": "It seems like you've provided a MediaWiki XML export file containing redirects from a Wikipedia page. Here's a simplified breakdown of the data:\n\n1. **Site Information:**\n   - Site Name: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case Sensitivity: First-letter\n   - Namespaces: There are 16 namespaces defined, including Media, Special, Main, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 3,
+      "timings": {
+        "cache_n": 3802,
+        "prompt_n": 1,
+        "prompt_ms": 101.088,
+        "prompt_per_token_ms": 101.088,
+        "prompt_per_second": 9.892371003482115,
+        "predicted_n": 128,
+        "predicted_ms": 11736.586,
+        "predicted_per_token_ms": 92.41406299212598,
+        "predicted_per_second": 10.820863920734702
+      }
+    },
+    {
+      "lane": "A_per_gid_greedy",
+      "mode": "warm",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/A_per_gid_greedy.warm.request.json",
+      "request_sha256": "f120f17e14e42337939c49a8c2aad970ec90afec928a78ff681f3188314a2d43",
+      "request_prompt_ids": 3803,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/A_per_gid_greedy.warm.run3.response.json",
+      "response_sha256": "ed5f50ea276408cdef6bb064875b0bbb574a60e4afc2f98d2868179a0247bd51",
+      "client_wall_ns": 11834925749,
+      "client_wall_ms": 11834.925749,
+      "tokens_evaluated": 3803,
+      "tokens_predicted": 128,
+      "tokens_cached": 3930,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251",
+      "content_sha256": "94829cfd5a77b81ede5b6a428346e044e36da42cb768d855d54acb5397eaddd7",
+      "content": "It seems like you've provided a MediaWiki XML export file containing redirects from a Wikipedia page. Here's a simplified breakdown of the data:\n\n1. **Site Information:**\n   - Site Name: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case Sensitivity: First-letter\n   - Namespaces: There are 16 namespaces defined, including Media, Special, Main, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 3,
+      "timings": {
+        "cache_n": 3802,
+        "prompt_n": 1,
+        "prompt_ms": 98.161,
+        "prompt_per_token_ms": 98.161,
+        "prompt_per_second": 10.187345279693565,
+        "predicted_n": 128,
+        "predicted_ms": 11732.148,
+        "predicted_per_token_ms": 92.37911811023622,
+        "predicted_per_second": 10.824957203062901
+      }
+    },
+    {
+      "lane": "B_stream_longest_greedy",
+      "mode": "cold",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/B_stream_longest_greedy.cold.request.json",
+      "request_sha256": "c9e0f80a0f24498b0659c853a074181f956264284b8e9f8cd279a6ec03ad29dd",
+      "request_prompt_ids": 2608,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/B_stream_longest_greedy.cold.run1.response.json",
+      "response_sha256": "afde15d183d0e81f7d5c72e89ce4a1931514887f8f9686ac5318f04195229c13",
+      "client_wall_ns": 26757852245,
+      "client_wall_ms": 26757.852245,
+      "tokens_evaluated": 2608,
+      "tokens_predicted": 128,
+      "tokens_cached": 2735,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020",
+      "content_sha256": "4d19e5b3b4693c065a547fa1b6971fb1d5e5ee56cce0f92b31d199f0c030a27b",
+      "content": "It seems like you're sharing an XML export of a MediaWiki page, specifically a list of redirects. Here's a simplified breakdown of the provided XML:\n\n1. **Site Information:**\n   - `siteinfo`: The site name is \"Wikipedia\", the base URL is \"http://en.wikipedia.org/wiki/Main_Page\", and the generator is \"MediaWiKi 1.6alpha\".\n   - `namespace`: There are 16 namespaces defined, such as Media, Special, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 2,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2608,
+        "prompt_ms": 14848.311,
+        "prompt_per_token_ms": 5.693370782208589,
+        "prompt_per_second": 175.64287278196153,
+        "predicted_n": 128,
+        "predicted_ms": 11401.171,
+        "predicted_per_token_ms": 89.773,
+        "predicted_per_second": 11.139206665701268
+      }
+    },
+    {
+      "lane": "B_stream_longest_greedy",
+      "mode": "cold",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/B_stream_longest_greedy.cold.request.json",
+      "request_sha256": "c9e0f80a0f24498b0659c853a074181f956264284b8e9f8cd279a6ec03ad29dd",
+      "request_prompt_ids": 2608,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/B_stream_longest_greedy.cold.run2.response.json",
+      "response_sha256": "c32ccde979ee814e7e1978f24cd46d81bf3171cbe6d5370adcd081acb56e2b3b",
+      "client_wall_ns": 26039916653,
+      "client_wall_ms": 26039.916653,
+      "tokens_evaluated": 2608,
+      "tokens_predicted": 128,
+      "tokens_cached": 2735,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "8464f4bf216c69568c53ec2f66a5c07351c2db0fb674b1227a0642c8e60b2c0f",
+      "content_sha256": "e838ef0fe2a4e0cbf0f5bfd04fc5cf112332a913aa46ad178045f262d8b77e7f",
+      "content": "It seems like you're sharing an XML export of a MediaWiki dump, which contains information about pages, their revisions, and metadata about the wiki itself. Here's a breakdown of the provided XML:\n\n1. **Site Information (`<siteinfo>`)**\n   - `siteinfo` contains metadata about the wiki, such as its name (`<siteame>Wikipedia</siteame>`), base URL (`<base>http://en.wikipedia.org/wiki/Main_Page</base>`), and the generator used (MediaWiki 1.6alpha).\n   - It also lists all the namespaces used on the wiki (`",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 2,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2608,
+        "prompt_ms": 14652.752,
+        "prompt_per_token_ms": 5.618386503067485,
+        "prompt_per_second": 177.98704298004907,
+        "predicted_n": 128,
+        "predicted_ms": 11383.108,
+        "predicted_per_token_ms": 89.6307716535433,
+        "predicted_per_second": 11.156882636974014
+      }
+    },
+    {
+      "lane": "B_stream_longest_greedy",
+      "mode": "cold",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/B_stream_longest_greedy.cold.request.json",
+      "request_sha256": "c9e0f80a0f24498b0659c853a074181f956264284b8e9f8cd279a6ec03ad29dd",
+      "request_prompt_ids": 2608,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/B_stream_longest_greedy.cold.run3.response.json",
+      "response_sha256": "5560e24daffa9b3440a25ffd6f4dd42845dd744804adc1c3d9f34b0b697b6b2a",
+      "client_wall_ns": 26014143564,
+      "client_wall_ms": 26014.143564,
+      "tokens_evaluated": 2608,
+      "tokens_predicted": 128,
+      "tokens_cached": 2735,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "b44e11a97bb1c3c37ba15d52022aa8fc7d8eaf7a24b2344960d3c30b2c8d7276",
+      "content_sha256": "9d55c27335a30260a0643ae15908a5eea3ef9f4487b0723fd486ddd45c360c79",
+      "content": "It seems like you're sharing an XML export of a MediaWiki page, but it's incomplete or corrupted. Here's what I can gather from the provided data:\n\n1. **Site Information:**\n   - The site name is \"Wikipedia\" (likely a typo, should be \"Wikipedia\").\n   - The base URL is \"http://en.wikipedia.org/wiki/Main_Page\".\n   - The generator is \"MediaWiKi 1.6alpha\".\n   - The case sensitivity is set to \"first-letter\".\n\n2. **Namespaces:**\n   - There are 16 defined namespaces, ranging from -2",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 2,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2608,
+        "prompt_ms": 14644.571,
+        "prompt_per_token_ms": 5.615249616564417,
+        "prompt_per_second": 178.08647313738314,
+        "predicted_n": 128,
+        "predicted_ms": 11365.771,
+        "predicted_per_token_ms": 89.4942598425197,
+        "predicted_per_second": 11.173901005044003
+      }
+    },
+    {
+      "lane": "B_stream_longest_greedy",
+      "mode": "warm",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/B_stream_longest_greedy.warm.request.json",
+      "request_sha256": "21bb82764c322a8314acb2c016117a4b7884883a734377631894699627bad1bc",
+      "request_prompt_ids": 2608,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/B_stream_longest_greedy.warm.run1.response.json",
+      "response_sha256": "5a9c9b132f675a64c894078e3a9337f08de3086fac3380f7f8ee93f00d4a521c",
+      "client_wall_ns": 11462287736,
+      "client_wall_ms": 11462.287736,
+      "tokens_evaluated": 2608,
+      "tokens_predicted": 128,
+      "tokens_cached": 2735,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020",
+      "content_sha256": "4d19e5b3b4693c065a547fa1b6971fb1d5e5ee56cce0f92b31d199f0c030a27b",
+      "content": "It seems like you're sharing an XML export of a MediaWiki page, specifically a list of redirects. Here's a simplified breakdown of the provided XML:\n\n1. **Site Information:**\n   - `siteinfo`: The site name is \"Wikipedia\", the base URL is \"http://en.wikipedia.org/wiki/Main_Page\", and the generator is \"MediaWiKi 1.6alpha\".\n   - `namespace`: There are 16 namespaces defined, such as Media, Special, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 2,
+      "timings": {
+        "cache_n": 2607,
+        "prompt_n": 1,
+        "prompt_ms": 92.48,
+        "prompt_per_token_ms": 92.48,
+        "prompt_per_second": 10.813148788927336,
+        "predicted_n": 128,
+        "predicted_ms": 11365.978,
+        "predicted_per_token_ms": 89.49588976377952,
+        "predicted_per_second": 11.173697503197703
+      }
+    },
+    {
+      "lane": "B_stream_longest_greedy",
+      "mode": "warm",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/B_stream_longest_greedy.warm.request.json",
+      "request_sha256": "21bb82764c322a8314acb2c016117a4b7884883a734377631894699627bad1bc",
+      "request_prompt_ids": 2608,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/B_stream_longest_greedy.warm.run2.response.json",
+      "response_sha256": "bb853a8d4959e02380ca87cd9054a10276120abfb54515ef645320858be0bb27",
+      "client_wall_ns": 11457742362,
+      "client_wall_ms": 11457.742362,
+      "tokens_evaluated": 2608,
+      "tokens_predicted": 128,
+      "tokens_cached": 2735,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020",
+      "content_sha256": "4d19e5b3b4693c065a547fa1b6971fb1d5e5ee56cce0f92b31d199f0c030a27b",
+      "content": "It seems like you're sharing an XML export of a MediaWiki page, specifically a list of redirects. Here's a simplified breakdown of the provided XML:\n\n1. **Site Information:**\n   - `siteinfo`: The site name is \"Wikipedia\", the base URL is \"http://en.wikipedia.org/wiki/Main_Page\", and the generator is \"MediaWiKi 1.6alpha\".\n   - `namespace`: There are 16 namespaces defined, such as Media, Special, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 2,
+      "timings": {
+        "cache_n": 2607,
+        "prompt_n": 1,
+        "prompt_ms": 91.232,
+        "prompt_per_token_ms": 91.232,
+        "prompt_per_second": 10.961066292528937,
+        "predicted_n": 128,
+        "predicted_ms": 11362.698,
+        "predicted_per_token_ms": 89.47006299212599,
+        "predicted_per_second": 11.176922945589155
+      }
+    },
+    {
+      "lane": "B_stream_longest_greedy",
+      "mode": "warm",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/B_stream_longest_greedy.warm.request.json",
+      "request_sha256": "21bb82764c322a8314acb2c016117a4b7884883a734377631894699627bad1bc",
+      "request_prompt_ids": 2608,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/B_stream_longest_greedy.warm.run3.response.json",
+      "response_sha256": "02efadb012d690b6f468cb50c25565e0f151446b1156dc0b0d1cf8c0113b6c7c",
+      "client_wall_ns": 11478219124,
+      "client_wall_ms": 11478.219124,
+      "tokens_evaluated": 2608,
+      "tokens_predicted": 128,
+      "tokens_cached": 2735,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020",
+      "content_sha256": "4d19e5b3b4693c065a547fa1b6971fb1d5e5ee56cce0f92b31d199f0c030a27b",
+      "content": "It seems like you're sharing an XML export of a MediaWiki page, specifically a list of redirects. Here's a simplified breakdown of the provided XML:\n\n1. **Site Information:**\n   - `siteinfo`: The site name is \"Wikipedia\", the base URL is \"http://en.wikipedia.org/wiki/Main_Page\", and the generator is \"MediaWiKi 1.6alpha\".\n   - `namespace`: There are 16 namespaces defined, such as Media, Special, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 2,
+      "timings": {
+        "cache_n": 2607,
+        "prompt_n": 1,
+        "prompt_ms": 93.624,
+        "prompt_per_token_ms": 93.624,
+        "prompt_per_second": 10.68102196018115,
+        "predicted_n": 128,
+        "predicted_ms": 11381.46,
+        "predicted_per_token_ms": 89.61779527559054,
+        "predicted_per_second": 11.158498118870515
+      }
+    },
+    {
+      "lane": "C_canonical_tekken",
+      "mode": "cold",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/C_canonical_tekken.cold.request.json",
+      "request_sha256": "4eb0e529d40db26625540bad7721d1bdfde3396fea02f786bfc0f36feeabda89",
+      "request_prompt_ids": 2626,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/C_canonical_tekken.cold.run1.response.json",
+      "response_sha256": "2fd528688d30cdd2aeca7bf052903c54f544de08bf8b7551d0b51442212c4379",
+      "client_wall_ns": 26738134319,
+      "client_wall_ms": 26738.134319,
+      "tokens_evaluated": 2626,
+      "tokens_predicted": 128,
+      "tokens_cached": 2753,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7",
+      "content_sha256": "715c9489fc20505e4185f3f63540d1f0a5690342053bf5c53400306adc42d4ab",
+      "content": "**Page Title:** Anarchism\n\n**ID:** 12\n\n**Revision:**\n- **ID:** 42136831\n- **Timestamp:** 2006-03-04T01:41:25Z\n- **Contributor:** CJames745 (ID: 832382)\n- **Minor:** Yes\n- **Comment:** /* Anarchist Communism */  too many brackets\n\n**Text:**\n\n{{Anarchism}}\n'''Anarchism''' originated as a term of abuse first used against early [[",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 1,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2626,
+        "prompt_ms": 14966.885,
+        "prompt_per_token_ms": 5.699499238385377,
+        "prompt_per_second": 175.45401063748403,
+        "predicted_n": 128,
+        "predicted_ms": 11356.972,
+        "predicted_per_token_ms": 89.42497637795276,
+        "predicted_per_second": 11.182558167793317
+      }
+    },
+    {
+      "lane": "C_canonical_tekken",
+      "mode": "cold",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/C_canonical_tekken.cold.request.json",
+      "request_sha256": "4eb0e529d40db26625540bad7721d1bdfde3396fea02f786bfc0f36feeabda89",
+      "request_prompt_ids": 2626,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/C_canonical_tekken.cold.run2.response.json",
+      "response_sha256": "d90404e4be509a50f9bbcce017006cf893c6a6688c4f6cfd950aef01e8f489fc",
+      "client_wall_ns": 26288448649,
+      "client_wall_ms": 26288.448649,
+      "tokens_evaluated": 2626,
+      "tokens_predicted": 128,
+      "tokens_cached": 2753,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "0b8f30c794107538318bfc6d374cda2bded6999133f528b042768d7bcbc6bb27",
+      "content_sha256": "9d7053086d2cf5421e23d1089c8f7794e31bf79fbcc2ddb95e2bf5db864765a3",
+      "content": "**Page Title:** Anarchism\n\n**ID:** 12\n\n**Revision:**\n- **ID:** 42136831\n- **Timestamp:** 2006-03-04T01:41:25Z\n- **Contributor:** CJames745 (ID: 832382)\n- **Minor:** Yes\n- **Comment:** \"/* Anarchist Communism */  too many brackets\"\n\n**Text:**\n\n```wikitext\n{{Anarchism}}\n'''Anarchism''' originated as a term",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 1,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2626,
+        "prompt_ms": 14907.023,
+        "prompt_per_token_ms": 5.676703351104341,
+        "prompt_per_second": 176.15857975130245,
+        "predicted_n": 128,
+        "predicted_ms": 11377.465,
+        "predicted_per_token_ms": 89.58633858267717,
+        "predicted_per_second": 11.16241623243842
+      }
+    },
+    {
+      "lane": "C_canonical_tekken",
+      "mode": "cold",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/C_canonical_tekken.cold.request.json",
+      "request_sha256": "4eb0e529d40db26625540bad7721d1bdfde3396fea02f786bfc0f36feeabda89",
+      "request_prompt_ids": 2626,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/C_canonical_tekken.cold.run3.response.json",
+      "response_sha256": "db9f2c6e59bdc4e6fb10de1dd655bc5bd8cd96de8b292204ecb614e4f7e65bc4",
+      "client_wall_ns": 26292704119,
+      "client_wall_ms": 26292.704119,
+      "tokens_evaluated": 2626,
+      "tokens_predicted": 128,
+      "tokens_cached": 2753,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7",
+      "content_sha256": "715c9489fc20505e4185f3f63540d1f0a5690342053bf5c53400306adc42d4ab",
+      "content": "**Page Title:** Anarchism\n\n**ID:** 12\n\n**Revision:**\n- **ID:** 42136831\n- **Timestamp:** 2006-03-04T01:41:25Z\n- **Contributor:** CJames745 (ID: 832382)\n- **Minor:** Yes\n- **Comment:** /* Anarchist Communism */  too many brackets\n\n**Text:**\n\n{{Anarchism}}\n'''Anarchism''' originated as a term of abuse first used against early [[",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 1,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2626,
+        "prompt_ms": 14916.271,
+        "prompt_per_token_ms": 5.680225057121097,
+        "prompt_per_second": 176.04936247135763,
+        "predicted_n": 128,
+        "predicted_ms": 11372.821,
+        "predicted_per_token_ms": 89.5497716535433,
+        "predicted_per_second": 11.166974315343573
+      }
+    },
+    {
+      "lane": "C_canonical_tekken",
+      "mode": "warm",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/C_canonical_tekken.warm.request.json",
+      "request_sha256": "f0e97cf4a849c6ab2599764bd70cd89baee6891cbee52c7a1d44e546df962134",
+      "request_prompt_ids": 2626,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/C_canonical_tekken.warm.run1.response.json",
+      "response_sha256": "edd48432e8432c06a81ba3bf7a47a653cfb605a5a79dd9c57807d6078e21f363",
+      "client_wall_ns": 11464437557,
+      "client_wall_ms": 11464.437557,
+      "tokens_evaluated": 2626,
+      "tokens_predicted": 128,
+      "tokens_cached": 2753,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "dc234422b2bcf8994538b1f769a6f48ea51e722e5f467f10e65fe5104a6e0acf",
+      "content_sha256": "1afa80381aaf07dcf14485d2312ca70503959506ac0aa3fb484dc01096df46f8",
+      "content": "**Page Title:** Anarchism\n\n**ID:** 12\n\n**Revision:**\n\n- **ID:** 42136831\n- **Timestamp:** 2006-03-04T01:41:25Z\n- **Contributor:**\n  - **Username:** CJames745\n  - **ID:** 832382\n- **Minor:** Yes\n- **Comment:** /* Anarchist Communism */  too many brackets\n\n**Text:**\n\n```wikitext\n{{Anarchism}}\n'''Anarch",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 1,
+      "timings": {
+        "cache_n": 2625,
+        "prompt_n": 1,
+        "prompt_ms": 91.333,
+        "prompt_per_token_ms": 91.333,
+        "prompt_per_second": 10.948945069142589,
+        "predicted_n": 128,
+        "predicted_ms": 11369.576,
+        "predicted_per_token_ms": 89.52422047244094,
+        "predicted_per_second": 11.170161490630786
+      }
+    },
+    {
+      "lane": "C_canonical_tekken",
+      "mode": "warm",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/C_canonical_tekken.warm.request.json",
+      "request_sha256": "f0e97cf4a849c6ab2599764bd70cd89baee6891cbee52c7a1d44e546df962134",
+      "request_prompt_ids": 2626,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/C_canonical_tekken.warm.run2.response.json",
+      "response_sha256": "46ef87bdef9d7df730f6bf76682a617ce2f98fac7e58fd815ff5b594dc584f00",
+      "client_wall_ns": 11451462697,
+      "client_wall_ms": 11451.462697,
+      "tokens_evaluated": 2626,
+      "tokens_predicted": 128,
+      "tokens_cached": 2753,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "dc234422b2bcf8994538b1f769a6f48ea51e722e5f467f10e65fe5104a6e0acf",
+      "content_sha256": "1afa80381aaf07dcf14485d2312ca70503959506ac0aa3fb484dc01096df46f8",
+      "content": "**Page Title:** Anarchism\n\n**ID:** 12\n\n**Revision:**\n\n- **ID:** 42136831\n- **Timestamp:** 2006-03-04T01:41:25Z\n- **Contributor:**\n  - **Username:** CJames745\n  - **ID:** 832382\n- **Minor:** Yes\n- **Comment:** /* Anarchist Communism */  too many brackets\n\n**Text:**\n\n```wikitext\n{{Anarchism}}\n'''Anarch",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 1,
+      "timings": {
+        "cache_n": 2625,
+        "prompt_n": 1,
+        "prompt_ms": 91.159,
+        "prompt_per_token_ms": 91.159,
+        "prompt_per_second": 10.969843899121315,
+        "predicted_n": 128,
+        "predicted_ms": 11356.887,
+        "predicted_per_token_ms": 89.42430708661418,
+        "predicted_per_second": 11.182641863038699
+      }
+    },
+    {
+      "lane": "C_canonical_tekken",
+      "mode": "warm",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/C_canonical_tekken.warm.request.json",
+      "request_sha256": "f0e97cf4a849c6ab2599764bd70cd89baee6891cbee52c7a1d44e546df962134",
+      "request_prompt_ids": 2626,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/C_canonical_tekken.warm.run3.response.json",
+      "response_sha256": "e00fd5d9052ba1a425ac88355392269d4cae505bd273b5bce0da278d78e0bc62",
+      "client_wall_ns": 11460769833,
+      "client_wall_ms": 11460.769833,
+      "tokens_evaluated": 2626,
+      "tokens_predicted": 128,
+      "tokens_cached": 2753,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7",
+      "content_sha256": "715c9489fc20505e4185f3f63540d1f0a5690342053bf5c53400306adc42d4ab",
+      "content": "**Page Title:** Anarchism\n\n**ID:** 12\n\n**Revision:**\n- **ID:** 42136831\n- **Timestamp:** 2006-03-04T01:41:25Z\n- **Contributor:** CJames745 (ID: 832382)\n- **Minor:** Yes\n- **Comment:** /* Anarchist Communism */  too many brackets\n\n**Text:**\n\n{{Anarchism}}\n'''Anarchism''' originated as a term of abuse first used against early [[",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 1,
+      "timings": {
+        "cache_n": 2625,
+        "prompt_n": 1,
+        "prompt_ms": 91.459,
+        "prompt_per_token_ms": 91.459,
+        "prompt_per_second": 10.93386107436119,
+        "predicted_n": 128,
+        "predicted_ms": 11365.898,
+        "predicted_per_token_ms": 89.49525984251967,
+        "predicted_per_second": 11.17377615037545
+      }
+    },
+    {
+      "lane": "D_exact_min_token_dp",
+      "mode": "cold",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/D_exact_min_token_dp.cold.request.json",
+      "request_sha256": "b28271ced2363e793b92c6632322559536979389eed1ae5d79ecfa49b7d71a42",
+      "request_prompt_ids": 2570,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/D_exact_min_token_dp.cold.run1.response.json",
+      "response_sha256": "f5b216679a177ece5f2732a19b06e1152307c378a88ee70993747a5ddd83d042",
+      "client_wall_ns": 26299248320,
+      "client_wall_ms": 26299.24832,
+      "tokens_evaluated": 2570,
+      "tokens_predicted": 128,
+      "tokens_cached": 2697,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "d730d5e42fb26287fe9b0d45b6595629a65e7d87151efdeeecc028f458c7c7cf",
+      "content_sha256": "eea2915ac0af03269f63b6f73b74e312914f17294985a657666482b1f34332a7",
+      "content": "It seems like you're sharing a portion of an XML file containing data from Wikipedia, specifically pages and their revisions. Here's a simplified breakdown of the provided XML:\n\n1. **Site Information:**\n   - Sitename: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case: first-letter (meaning case sensitivity is based on the first letter)\n   - Namespaces: There are 16 defined namespaces (e.g., Media, Special, Talk, User, etc.).\n\n2. **Pages and Revisions:**\n",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 0,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2570,
+        "prompt_ms": 14563.647,
+        "prompt_per_token_ms": 5.666788715953308,
+        "prompt_per_second": 176.46678747431875,
+        "predicted_n": 128,
+        "predicted_ms": 11370.698,
+        "predicted_per_token_ms": 89.53305511811024,
+        "predicted_per_second": 11.169059278506912
+      }
+    },
+    {
+      "lane": "D_exact_min_token_dp",
+      "mode": "cold",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/D_exact_min_token_dp.cold.request.json",
+      "request_sha256": "b28271ced2363e793b92c6632322559536979389eed1ae5d79ecfa49b7d71a42",
+      "request_prompt_ids": 2570,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/D_exact_min_token_dp.cold.run2.response.json",
+      "response_sha256": "60a543aefdcb099f06f6a08ab278772a008913e86180e14e5887ffcbef40112c",
+      "client_wall_ns": 25869387399,
+      "client_wall_ms": 25869.387399,
+      "tokens_evaluated": 2570,
+      "tokens_predicted": 128,
+      "tokens_cached": 2697,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "dbe3b735e1e8fd6b9f4a9db9a2ce98ed1e6e010f847c7bef6ff53496587db7f3",
+      "content_sha256": "5833f0d80469120dbf97705aa82b7f0003c7a7f952c73a21657ffc590738056a",
+      "content": "It seems like you're sharing a portion of an XML file containing data exported from Wikipedia. Here's a cleaned-up and formatted version of the text you provided, focusing on the page titles, IDs, and timestamps of the revisions:\n\n```xml\n<mediawiki ...>\n  <siteinfo>\n    ...\n    <namepaces>\n      ...\n    </namepaces>\n  </siteinfo>\n  <page>\n    <title>AaA</title>\n    <id>1</id>\n    <revision>\n      <id>32899315</id>\n      <timestamp>2005-",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 0,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2570,
+        "prompt_ms": 14509.69,
+        "prompt_per_token_ms": 5.645793774319066,
+        "prompt_per_second": 177.1230122766234,
+        "predicted_n": 128,
+        "predicted_ms": 11356.889,
+        "predicted_per_token_ms": 89.42432283464566,
+        "predicted_per_second": 11.182639893724417
+      }
+    },
+    {
+      "lane": "D_exact_min_token_dp",
+      "mode": "cold",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/D_exact_min_token_dp.cold.request.json",
+      "request_sha256": "b28271ced2363e793b92c6632322559536979389eed1ae5d79ecfa49b7d71a42",
+      "request_prompt_ids": 2570,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/D_exact_min_token_dp.cold.run3.response.json",
+      "response_sha256": "f65567f3891e3fd165259a2722a96468bc9d9e3288c733e595f4e5e6149b5694",
+      "client_wall_ns": 26060044299,
+      "client_wall_ms": 26060.044299,
+      "tokens_evaluated": 2570,
+      "tokens_predicted": 128,
+      "tokens_cached": 2697,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "dbe3b735e1e8fd6b9f4a9db9a2ce98ed1e6e010f847c7bef6ff53496587db7f3",
+      "content_sha256": "5833f0d80469120dbf97705aa82b7f0003c7a7f952c73a21657ffc590738056a",
+      "content": "It seems like you're sharing a portion of an XML file containing data exported from Wikipedia. Here's a cleaned-up and formatted version of the text you provided, focusing on the page titles, IDs, and timestamps of the revisions:\n\n```xml\n<mediawiki ...>\n  <siteinfo>\n    ...\n    <namepaces>\n      ...\n    </namepaces>\n  </siteinfo>\n  <page>\n    <title>AaA</title>\n    <id>1</id>\n    <revision>\n      <id>32899315</id>\n      <timestamp>2005-",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 0,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2570,
+        "prompt_ms": 14554.469,
+        "prompt_per_token_ms": 5.663217509727626,
+        "prompt_per_second": 176.57806684668472,
+        "predicted_n": 128,
+        "predicted_ms": 11501.939,
+        "predicted_per_token_ms": 90.56644881889764,
+        "predicted_per_second": 11.041616548305464
+      }
+    },
+    {
+      "lane": "D_exact_min_token_dp",
+      "mode": "warm",
+      "repeat": 1,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/D_exact_min_token_dp.warm.request.json",
+      "request_sha256": "369b35d66159f8fad04d16563a98eb522a7c1bea884979efb0117a0d6c1ee87c",
+      "request_prompt_ids": 2570,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/D_exact_min_token_dp.warm.run1.response.json",
+      "response_sha256": "b0e42f363babf2142343e5e52a8172887b050816dd9952afc902d21ec6515c38",
+      "client_wall_ns": 11517802905,
+      "client_wall_ms": 11517.802905,
+      "tokens_evaluated": 2570,
+      "tokens_predicted": 128,
+      "tokens_cached": 2697,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "e36cb40316d9329ec506d5121a1475b78a8ff46427d08a171bfe902144b9ac56",
+      "content_sha256": "ad93ca9e34cb5363ece480a71c28540b4eeb6fb412a12c223b098faad489956d",
+      "content": "It seems like you're sharing a portion of an XML file containing data from Wikipedia, specifically pages and their revisions. Here's a simplified breakdown of the provided XML:\n\n1. **Site Information:**\n   - Sitename: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case: first-letter (meaning case sensitivity is based on the first letter)\n   - Namespaces: A list of namespaces (e.g., Media, Special, Talk, User, etc.) with their respective keys.\n\n2. **Pages and Re",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 0,
+      "timings": {
+        "cache_n": 2569,
+        "prompt_n": 1,
+        "prompt_ms": 92.585,
+        "prompt_per_token_ms": 92.585,
+        "prompt_per_second": 10.800885672625157,
+        "predicted_n": 128,
+        "predicted_ms": 11421.679,
+        "predicted_per_token_ms": 89.93448031496062,
+        "predicted_per_second": 11.11920585406051
+      }
+    },
+    {
+      "lane": "D_exact_min_token_dp",
+      "mode": "warm",
+      "repeat": 2,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/D_exact_min_token_dp.warm.request.json",
+      "request_sha256": "369b35d66159f8fad04d16563a98eb522a7c1bea884979efb0117a0d6c1ee87c",
+      "request_prompt_ids": 2570,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/D_exact_min_token_dp.warm.run2.response.json",
+      "response_sha256": "8e95bab985a5e371769aea6c4588701566587b4665ffec9aa30841eee0b60da8",
+      "client_wall_ns": 11575613238,
+      "client_wall_ms": 11575.613238,
+      "tokens_evaluated": 2570,
+      "tokens_predicted": 128,
+      "tokens_cached": 2697,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "3c5e7fb81a2053c99cbfc7328c395237b084d0b499e37e8eb1e422aab9b5cf85",
+      "content_sha256": "07a03dd20eb161daa7b016da7cde92a451cd90e43964bf6cc4452044f5335297",
+      "content": "It seems like you're sharing a portion of an XML file containing data from Wikipedia, specifically pages and their revisions. Here's a simplified breakdown of the structure and content:\n\n1. **Site Information (siteinfo):**\n   - Sitename: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case sensitivity: first-letter (meaning case is ignored for the first letter of page titles)\n   - Namespaces: A list of namespaces (e.g., Media, Special, Talk, User, etc.) with their respective",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 0,
+      "timings": {
+        "cache_n": 2569,
+        "prompt_n": 1,
+        "prompt_ms": 93.463,
+        "prompt_per_token_ms": 93.463,
+        "prompt_per_second": 10.699421161315174,
+        "predicted_n": 128,
+        "predicted_ms": 11478.118,
+        "predicted_per_token_ms": 90.37888188976379,
+        "predicted_per_second": 11.064531659284214
+      }
+    },
+    {
+      "lane": "D_exact_min_token_dp",
+      "mode": "warm",
+      "repeat": 3,
+      "request_file": "/tmp/nereids-4lane-ctx3800-pc2/D_exact_min_token_dp.warm.request.json",
+      "request_sha256": "369b35d66159f8fad04d16563a98eb522a7c1bea884979efb0117a0d6c1ee87c",
+      "request_prompt_ids": 2570,
+      "response_file": "/tmp/nereids-4lane-ctx3800-infer-20260914-2306/D_exact_min_token_dp.warm.run3.response.json",
+      "response_sha256": "020d63f3961fb115868b60f5aaf8f880606ce2089189e5719b6ef78cdda0e0a1",
+      "client_wall_ns": 11458150739,
+      "client_wall_ms": 11458.150739,
+      "tokens_evaluated": 2570,
+      "tokens_predicted": 128,
+      "tokens_cached": 2697,
+      "output_token_count": 128,
+      "output_tokens_sha256_u32le": "3c5e7fb81a2053c99cbfc7328c395237b084d0b499e37e8eb1e422aab9b5cf85",
+      "content_sha256": "07a03dd20eb161daa7b016da7cde92a451cd90e43964bf6cc4452044f5335297",
+      "content": "It seems like you're sharing a portion of an XML file containing data from Wikipedia, specifically pages and their revisions. Here's a simplified breakdown of the structure and content:\n\n1. **Site Information (siteinfo):**\n   - Sitename: Wikipedia\n   - Base URL: http://en.wikipedia.org/wiki/Main_Page\n   - Generator: MediaWiki 1.6alpha\n   - Case sensitivity: first-letter (meaning case is ignored for the first letter of page titles)\n   - Namespaces: A list of namespaces (e.g., Media, Special, Talk, User, etc.) with their respective",
+      "stop": true,
+      "stop_type": "limit",
+      "truncated": false,
+      "id_slot": 0,
+      "timings": {
+        "cache_n": 2569,
+        "prompt_n": 1,
+        "prompt_ms": 92.714,
+        "prompt_per_token_ms": 92.714,
+        "prompt_per_second": 10.785857583536467,
+        "predicted_n": 128,
+        "predicted_ms": 11361.874,
+        "predicted_per_token_ms": 89.4635748031496,
+        "predicted_per_second": 11.177733532338063
+      }
+    }
+  ],
+  "groups": {
+    "A_per_gid_greedy": {
+      "cold": {
+        "request_sha256": "26690070c4e49357fca3575451ef39729bfec06d6c0ec0f44ef50a4d651e86a6",
+        "prompt_ids": 3803,
+        "repeatability": {
+          "identical_output_token_ids": false,
+          "identical_output_content": false,
+          "unique_output_token_hashes": [
+            "1407dba81692fa32c3590ab9a08cd29ae29ea757a6b5affb45d7839927aca5e9",
+            "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251"
+          ],
+          "unique_content_hashes": [
+            "370586f9b12ebd8ec5b517f8371db0165924fa15ff77f5bb042259675d175ae1",
+            "94829cfd5a77b81ede5b6a428346e044e36da42cb768d855d54acb5397eaddd7"
+          ]
+        },
+        "prompt_ms": {
+          "min": 22109.205,
+          "mean": 22271.722333333335,
+          "max": 22565.367
+        },
+        "predicted_ms": {
+          "min": 11710.858,
+          "mean": 11731.366333333333,
+          "max": 11743.314
+        },
+        "client_wall_ms": {
+          "min": 33856.368081,
+          "mean": 34029.579831333336,
+          "max": 34375.842861
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 3803,
+            "tokens_predicted": 128,
+            "tokens_cached": 3930,
+            "cache_n": 0,
+            "prompt_ms": 22565.367,
+            "predicted_ms": 11739.927,
+            "client_wall_ms": 34375.842861,
+            "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 3803,
+            "tokens_predicted": 128,
+            "tokens_cached": 3930,
+            "cache_n": 0,
+            "prompt_ms": 22109.205,
+            "predicted_ms": 11743.314,
+            "client_wall_ms": 33856.528552,
+            "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 3803,
+            "tokens_predicted": 128,
+            "tokens_cached": 3930,
+            "cache_n": 0,
+            "prompt_ms": 22140.595,
+            "predicted_ms": 11710.858,
+            "client_wall_ms": 33856.368081,
+            "output_tokens_sha256_u32le": "1407dba81692fa32c3590ab9a08cd29ae29ea757a6b5affb45d7839927aca5e9"
+          }
+        ]
+      },
+      "warm": {
+        "request_sha256": "f120f17e14e42337939c49a8c2aad970ec90afec928a78ff681f3188314a2d43",
+        "prompt_ids": 3803,
+        "repeatability": {
+          "identical_output_token_ids": true,
+          "identical_output_content": true,
+          "unique_output_token_hashes": [
+            "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251"
+          ],
+          "unique_content_hashes": [
+            "94829cfd5a77b81ede5b6a428346e044e36da42cb768d855d54acb5397eaddd7"
+          ]
+        },
+        "prompt_ms": {
+          "min": 98.046,
+          "mean": 99.09833333333334,
+          "max": 101.088
+        },
+        "predicted_ms": {
+          "min": 11705.668,
+          "mean": 11724.800666666668,
+          "max": 11736.586
+        },
+        "client_wall_ms": {
+          "min": 11807.87572,
+          "mean": 11828.238174666667,
+          "max": 11841.913055
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 3803,
+            "tokens_predicted": 128,
+            "tokens_cached": 3930,
+            "cache_n": 3802,
+            "prompt_ms": 98.046,
+            "predicted_ms": 11705.668,
+            "client_wall_ms": 11807.87572,
+            "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 3803,
+            "tokens_predicted": 128,
+            "tokens_cached": 3930,
+            "cache_n": 3802,
+            "prompt_ms": 101.088,
+            "predicted_ms": 11736.586,
+            "client_wall_ms": 11841.913055,
+            "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 3803,
+            "tokens_predicted": 128,
+            "tokens_cached": 3930,
+            "cache_n": 3802,
+            "prompt_ms": 98.161,
+            "predicted_ms": 11732.148,
+            "client_wall_ms": 11834.925749,
+            "output_tokens_sha256_u32le": "30f4730a30e2b51075388305c3740b8e1d1f4f8021c0709a7a000afc1bd21251"
+          }
+        ]
+      },
+      "cold_vs_warm": {
+        "same_output_token_hash_set": false
+      }
+    },
+    "B_stream_longest_greedy": {
+      "cold": {
+        "request_sha256": "c9e0f80a0f24498b0659c853a074181f956264284b8e9f8cd279a6ec03ad29dd",
+        "prompt_ids": 2608,
+        "repeatability": {
+          "identical_output_token_ids": false,
+          "identical_output_content": false,
+          "unique_output_token_hashes": [
+            "8464f4bf216c69568c53ec2f66a5c07351c2db0fb674b1227a0642c8e60b2c0f",
+            "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020",
+            "b44e11a97bb1c3c37ba15d52022aa8fc7d8eaf7a24b2344960d3c30b2c8d7276"
+          ],
+          "unique_content_hashes": [
+            "4d19e5b3b4693c065a547fa1b6971fb1d5e5ee56cce0f92b31d199f0c030a27b",
+            "9d55c27335a30260a0643ae15908a5eea3ef9f4487b0723fd486ddd45c360c79",
+            "e838ef0fe2a4e0cbf0f5bfd04fc5cf112332a913aa46ad178045f262d8b77e7f"
+          ]
+        },
+        "prompt_ms": {
+          "min": 14644.571,
+          "mean": 14715.211333333333,
+          "max": 14848.311
+        },
+        "predicted_ms": {
+          "min": 11365.771,
+          "mean": 11383.35,
+          "max": 11401.171
+        },
+        "client_wall_ms": {
+          "min": 26014.143564,
+          "mean": 26270.637487333337,
+          "max": 26757.852245
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 2608,
+            "tokens_predicted": 128,
+            "tokens_cached": 2735,
+            "cache_n": 0,
+            "prompt_ms": 14848.311,
+            "predicted_ms": 11401.171,
+            "client_wall_ms": 26757.852245,
+            "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 2608,
+            "tokens_predicted": 128,
+            "tokens_cached": 2735,
+            "cache_n": 0,
+            "prompt_ms": 14652.752,
+            "predicted_ms": 11383.108,
+            "client_wall_ms": 26039.916653,
+            "output_tokens_sha256_u32le": "8464f4bf216c69568c53ec2f66a5c07351c2db0fb674b1227a0642c8e60b2c0f"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 2608,
+            "tokens_predicted": 128,
+            "tokens_cached": 2735,
+            "cache_n": 0,
+            "prompt_ms": 14644.571,
+            "predicted_ms": 11365.771,
+            "client_wall_ms": 26014.143564,
+            "output_tokens_sha256_u32le": "b44e11a97bb1c3c37ba15d52022aa8fc7d8eaf7a24b2344960d3c30b2c8d7276"
+          }
+        ]
+      },
+      "warm": {
+        "request_sha256": "21bb82764c322a8314acb2c016117a4b7884883a734377631894699627bad1bc",
+        "prompt_ids": 2608,
+        "repeatability": {
+          "identical_output_token_ids": true,
+          "identical_output_content": true,
+          "unique_output_token_hashes": [
+            "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020"
+          ],
+          "unique_content_hashes": [
+            "4d19e5b3b4693c065a547fa1b6971fb1d5e5ee56cce0f92b31d199f0c030a27b"
+          ]
+        },
+        "prompt_ms": {
+          "min": 91.232,
+          "mean": 92.44533333333334,
+          "max": 93.624
+        },
+        "predicted_ms": {
+          "min": 11362.698,
+          "mean": 11370.045333333333,
+          "max": 11381.46
+        },
+        "client_wall_ms": {
+          "min": 11457.742362,
+          "mean": 11466.083074,
+          "max": 11478.219124
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 2608,
+            "tokens_predicted": 128,
+            "tokens_cached": 2735,
+            "cache_n": 2607,
+            "prompt_ms": 92.48,
+            "predicted_ms": 11365.978,
+            "client_wall_ms": 11462.287736,
+            "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 2608,
+            "tokens_predicted": 128,
+            "tokens_cached": 2735,
+            "cache_n": 2607,
+            "prompt_ms": 91.232,
+            "predicted_ms": 11362.698,
+            "client_wall_ms": 11457.742362,
+            "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 2608,
+            "tokens_predicted": 128,
+            "tokens_cached": 2735,
+            "cache_n": 2607,
+            "prompt_ms": 93.624,
+            "predicted_ms": 11381.46,
+            "client_wall_ms": 11478.219124,
+            "output_tokens_sha256_u32le": "8af5529f55f046e90bb7481090a3dc593fce2872d4474814ae35c6f882bc6020"
+          }
+        ]
+      },
+      "cold_vs_warm": {
+        "same_output_token_hash_set": false
+      }
+    },
+    "C_canonical_tekken": {
+      "cold": {
+        "request_sha256": "4eb0e529d40db26625540bad7721d1bdfde3396fea02f786bfc0f36feeabda89",
+        "prompt_ids": 2626,
+        "repeatability": {
+          "identical_output_token_ids": false,
+          "identical_output_content": false,
+          "unique_output_token_hashes": [
+            "0b8f30c794107538318bfc6d374cda2bded6999133f528b042768d7bcbc6bb27",
+            "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7"
+          ],
+          "unique_content_hashes": [
+            "715c9489fc20505e4185f3f63540d1f0a5690342053bf5c53400306adc42d4ab",
+            "9d7053086d2cf5421e23d1089c8f7794e31bf79fbcc2ddb95e2bf5db864765a3"
+          ]
+        },
+        "prompt_ms": {
+          "min": 14907.023,
+          "mean": 14930.059666666668,
+          "max": 14966.885
+        },
+        "predicted_ms": {
+          "min": 11356.972,
+          "mean": 11369.086000000001,
+          "max": 11377.465
+        },
+        "client_wall_ms": {
+          "min": 26288.448649,
+          "mean": 26439.762362333335,
+          "max": 26738.134319
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 2626,
+            "tokens_predicted": 128,
+            "tokens_cached": 2753,
+            "cache_n": 0,
+            "prompt_ms": 14966.885,
+            "predicted_ms": 11356.972,
+            "client_wall_ms": 26738.134319,
+            "output_tokens_sha256_u32le": "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 2626,
+            "tokens_predicted": 128,
+            "tokens_cached": 2753,
+            "cache_n": 0,
+            "prompt_ms": 14907.023,
+            "predicted_ms": 11377.465,
+            "client_wall_ms": 26288.448649,
+            "output_tokens_sha256_u32le": "0b8f30c794107538318bfc6d374cda2bded6999133f528b042768d7bcbc6bb27"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 2626,
+            "tokens_predicted": 128,
+            "tokens_cached": 2753,
+            "cache_n": 0,
+            "prompt_ms": 14916.271,
+            "predicted_ms": 11372.821,
+            "client_wall_ms": 26292.704119,
+            "output_tokens_sha256_u32le": "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7"
+          }
+        ]
+      },
+      "warm": {
+        "request_sha256": "f0e97cf4a849c6ab2599764bd70cd89baee6891cbee52c7a1d44e546df962134",
+        "prompt_ids": 2626,
+        "repeatability": {
+          "identical_output_token_ids": false,
+          "identical_output_content": false,
+          "unique_output_token_hashes": [
+            "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7",
+            "dc234422b2bcf8994538b1f769a6f48ea51e722e5f467f10e65fe5104a6e0acf"
+          ],
+          "unique_content_hashes": [
+            "1afa80381aaf07dcf14485d2312ca70503959506ac0aa3fb484dc01096df46f8",
+            "715c9489fc20505e4185f3f63540d1f0a5690342053bf5c53400306adc42d4ab"
+          ]
+        },
+        "prompt_ms": {
+          "min": 91.159,
+          "mean": 91.31700000000001,
+          "max": 91.459
+        },
+        "predicted_ms": {
+          "min": 11356.887,
+          "mean": 11364.120333333332,
+          "max": 11369.576
+        },
+        "client_wall_ms": {
+          "min": 11451.462697,
+          "mean": 11458.890029,
+          "max": 11464.437557
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 2626,
+            "tokens_predicted": 128,
+            "tokens_cached": 2753,
+            "cache_n": 2625,
+            "prompt_ms": 91.333,
+            "predicted_ms": 11369.576,
+            "client_wall_ms": 11464.437557,
+            "output_tokens_sha256_u32le": "dc234422b2bcf8994538b1f769a6f48ea51e722e5f467f10e65fe5104a6e0acf"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 2626,
+            "tokens_predicted": 128,
+            "tokens_cached": 2753,
+            "cache_n": 2625,
+            "prompt_ms": 91.159,
+            "predicted_ms": 11356.887,
+            "client_wall_ms": 11451.462697,
+            "output_tokens_sha256_u32le": "dc234422b2bcf8994538b1f769a6f48ea51e722e5f467f10e65fe5104a6e0acf"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 2626,
+            "tokens_predicted": 128,
+            "tokens_cached": 2753,
+            "cache_n": 2625,
+            "prompt_ms": 91.459,
+            "predicted_ms": 11365.898,
+            "client_wall_ms": 11460.769833,
+            "output_tokens_sha256_u32le": "c1e49bcda2a9e86e31b05b27656b8d59ab85c5c76dc4bda047543dd4b74003b7"
+          }
+        ]
+      },
+      "cold_vs_warm": {
+        "same_output_token_hash_set": false
+      }
+    },
+    "D_exact_min_token_dp": {
+      "cold": {
+        "request_sha256": "b28271ced2363e793b92c6632322559536979389eed1ae5d79ecfa49b7d71a42",
+        "prompt_ids": 2570,
+        "repeatability": {
+          "identical_output_token_ids": false,
+          "identical_output_content": false,
+          "unique_output_token_hashes": [
+            "d730d5e42fb26287fe9b0d45b6595629a65e7d87151efdeeecc028f458c7c7cf",
+            "dbe3b735e1e8fd6b9f4a9db9a2ce98ed1e6e010f847c7bef6ff53496587db7f3"
+          ],
+          "unique_content_hashes": [
+            "5833f0d80469120dbf97705aa82b7f0003c7a7f952c73a21657ffc590738056a",
+            "eea2915ac0af03269f63b6f73b74e312914f17294985a657666482b1f34332a7"
+          ]
+        },
+        "prompt_ms": {
+          "min": 14509.69,
+          "mean": 14542.601999999999,
+          "max": 14563.647
+        },
+        "predicted_ms": {
+          "min": 11356.889,
+          "mean": 11409.841999999999,
+          "max": 11501.939
+        },
+        "client_wall_ms": {
+          "min": 25869.387399,
+          "mean": 26076.226672666668,
+          "max": 26299.24832
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 2570,
+            "tokens_predicted": 128,
+            "tokens_cached": 2697,
+            "cache_n": 0,
+            "prompt_ms": 14563.647,
+            "predicted_ms": 11370.698,
+            "client_wall_ms": 26299.24832,
+            "output_tokens_sha256_u32le": "d730d5e42fb26287fe9b0d45b6595629a65e7d87151efdeeecc028f458c7c7cf"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 2570,
+            "tokens_predicted": 128,
+            "tokens_cached": 2697,
+            "cache_n": 0,
+            "prompt_ms": 14509.69,
+            "predicted_ms": 11356.889,
+            "client_wall_ms": 25869.387399,
+            "output_tokens_sha256_u32le": "dbe3b735e1e8fd6b9f4a9db9a2ce98ed1e6e010f847c7bef6ff53496587db7f3"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 2570,
+            "tokens_predicted": 128,
+            "tokens_cached": 2697,
+            "cache_n": 0,
+            "prompt_ms": 14554.469,
+            "predicted_ms": 11501.939,
+            "client_wall_ms": 26060.044299,
+            "output_tokens_sha256_u32le": "dbe3b735e1e8fd6b9f4a9db9a2ce98ed1e6e010f847c7bef6ff53496587db7f3"
+          }
+        ]
+      },
+      "warm": {
+        "request_sha256": "369b35d66159f8fad04d16563a98eb522a7c1bea884979efb0117a0d6c1ee87c",
+        "prompt_ids": 2570,
+        "repeatability": {
+          "identical_output_token_ids": false,
+          "identical_output_content": false,
+          "unique_output_token_hashes": [
+            "3c5e7fb81a2053c99cbfc7328c395237b084d0b499e37e8eb1e422aab9b5cf85",
+            "e36cb40316d9329ec506d5121a1475b78a8ff46427d08a171bfe902144b9ac56"
+          ],
+          "unique_content_hashes": [
+            "07a03dd20eb161daa7b016da7cde92a451cd90e43964bf6cc4452044f5335297",
+            "ad93ca9e34cb5363ece480a71c28540b4eeb6fb412a12c223b098faad489956d"
+          ]
+        },
+        "prompt_ms": {
+          "min": 92.585,
+          "mean": 92.92066666666666,
+          "max": 93.463
+        },
+        "predicted_ms": {
+          "min": 11361.874,
+          "mean": 11420.557,
+          "max": 11478.118
+        },
+        "client_wall_ms": {
+          "min": 11458.150739,
+          "mean": 11517.188960666666,
+          "max": 11575.613238
+        },
+        "runs": [
+          {
+            "repeat": 1,
+            "tokens_evaluated": 2570,
+            "tokens_predicted": 128,
+            "tokens_cached": 2697,
+            "cache_n": 2569,
+            "prompt_ms": 92.585,
+            "predicted_ms": 11421.679,
+            "client_wall_ms": 11517.802905,
+            "output_tokens_sha256_u32le": "e36cb40316d9329ec506d5121a1475b78a8ff46427d08a171bfe902144b9ac56"
+          },
+          {
+            "repeat": 2,
+            "tokens_evaluated": 2570,
+            "tokens_predicted": 128,
+            "tokens_cached": 2697,
+            "cache_n": 2569,
+            "prompt_ms": 93.463,
+            "predicted_ms": 11478.118,
+            "client_wall_ms": 11575.613238,
+            "output_tokens_sha256_u32le": "3c5e7fb81a2053c99cbfc7328c395237b084d0b499e37e8eb1e422aab9b5cf85"
+          },
+          {
+            "repeat": 3,
+            "tokens_evaluated": 2570,
+            "tokens_predicted": 128,
+            "tokens_cached": 2697,
+            "cache_n": 2569,
+            "prompt_ms": 92.714,
+            "predicted_ms": 11361.874,
+            "client_wall_ms": 11458.150739,
+            "output_tokens_sha256_u32le": "3c5e7fb81a2053c99cbfc7328c395237b084d0b499e37e8eb1e422aab9b5cf85"
+          }
+        ]
+      },
+      "cold_vs_warm": {
+        "same_output_token_hash_set": false
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+==============================================================================
+A_per_gid_greedy
+evaluated: 3803
+predicted: 128
+content:
+It seems like you've provided a MediaWiki XML export file containing redirects from a Wikipedia page. Here's a simplified breakdown of the data:
+
+1. **Site Information:**
+   - Site Name: Wikipedia
+   - Base URL: http://en.wikipedia.org/wiki/Main_Page
+   - Generator: MediaWiki 1.6alpha
+   - Case Sensitivity: First-letter
+   - Namespaces: There are 16 namespaces defined, including Media, Special, Main, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,
+
+==============================================================================
+B_stream_longest_greedy
+evaluated: 2608
+predicted: 128
+content:
+It seems like you're sharing an XML export of a MediaWiki page, specifically a list of redirects. Here's a simplified breakdown of the provided XML:
+
+1. **Site Information:**
+   - `siteinfo`: The site name is "Wikipedia", the base URL is "http://en.wikipedia.org/wiki/Main_Page", and the generator is "MediaWiKi 1.6alpha".
+   - `namespace`: There are 16 namespaces defined, such as Media, Special, Talk, User, User talk, Wikipedia, Wikipedia talk, Image, Image talk, MediaWiki, MediaWiki talk,
+
+==============================================================================
+C_canonical_tekken
+evaluated: 2626
+predicted: 128
+content:
+**Page Title:** Anarchism
+
+**ID:** 12
+
+**Revision:**
+- **ID:** 42136831
+- **Timestamp:** 2006-03-04T01:41:25Z
+- **Contributor:** CJames745 (ID: 832382)
+- **Minor:** Yes
+- **Comment:** /* Anarchist Communism */  too many brackets
+
+**Text:**
+
+{{Anarchism}}
+'''Anarchism''' originated as a term of abuse first used against early [[
+
+==============================================================================
+D_exact_min_token_dp
+evaluated: 2570
+predicted: 128
+content:
+It seems like you're sharing a portion of an XML file containing data from Wikipedia, specifically pages and their revisions. Here's a simplified breakdown of the provided XML:
+
+1. **Site Information:**
+   - Sitename: Wikipedia
+   - Base URL: http://en.wikipedia.org/wiki/Main_Page
+   - Generator: MediaWiki 1.6alpha
+   - Case: first-letter (meaning case sensitivity is based on the first letter)
+   - Namespaces: There are 16 defined namespaces (e.g., Media, Special, Talk, User, etc.).
+
+2. **Pages and Revisions:**
+
+
+==============================================================================
