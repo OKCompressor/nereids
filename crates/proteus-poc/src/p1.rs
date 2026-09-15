@@ -11,7 +11,7 @@ use crate::{
 };
 use anyhow::{anyhow, bail, Context, Result};
 use nereids::direct_id::{construct_du_aware_repair_candidate, DirectIdSnapshotV2};
-use nereids::{bytes_to_hex, LoadedStream, TokenSpan};
+use nereids::{bytes_to_hex, LoadedStream, TokenSpan, TokenizerStream};
 use serde::Serialize;
 use sha2::{Digest, Sha256};
 use std::collections::HashSet;
@@ -554,6 +554,19 @@ pub struct P1Checkpoint {
     pub encoded_len: u64,
 }
 
+/// Exact, externally produced inputs for a sequence-zero P1 checkpoint.
+///
+/// Native tokenization and DU generation are deliberately outside Proteus:
+/// callers must supply both artifacts with their explicit identities.
+#[derive(Clone, Debug)]
+pub struct P1ExactIngestV1 {
+    pub native_tokenization: TokenizerStream,
+    pub du_stream: LoadedStream,
+    pub dictionary_lineage: String,
+    pub model_tokenizer: ModelTokenizerIdentityV0,
+    pub creation_provenance: SnapshotProvenanceEventV0,
+}
+
 pub fn encode_checkpoint(snapshot: &ProteusSnapshotV0) -> Result<(Vec<u8>, Hash32)> {
     snapshot.validate()?;
     let transcript = snapshot.direct_id.du_state.reconstruct()?;
@@ -869,6 +882,31 @@ pub fn create_checkpoint(path: &Path, snapshot: &ProteusSnapshotV0) -> Result<P1
     file.sync_all()
         .with_context(|| format!("sync checkpoint {}", path.display()))?;
     decode_checkpoint(&bytes)
+}
+
+/// Validate raw transcript identity plus explicit native/DU artifacts and
+/// create one immutable PRT0 checkpoint with create-new semantics.
+pub fn create_checkpoint_from_exact_bytes(
+    path: &Path,
+    transcript_bytes: &[u8],
+    inputs: P1ExactIngestV1,
+) -> Result<P1Checkpoint> {
+    let P1ExactIngestV1 {
+        native_tokenization,
+        du_stream,
+        dictionary_lineage,
+        model_tokenizer,
+        creation_provenance,
+    } = inputs;
+    let snapshot = ProteusSnapshotV0::initialize_from_exact_streams(
+        transcript_bytes,
+        &native_tokenization,
+        du_stream,
+        dictionary_lineage,
+        model_tokenizer,
+        creation_provenance,
+    )?;
+    create_checkpoint(path, &snapshot)
 }
 
 pub fn open_checkpoint(path: &Path) -> Result<P1Checkpoint> {
@@ -1663,6 +1701,35 @@ impl P1WarmSession {
             tokenize_repair_window,
         )?;
         self.verify_pending(pending, oracle_full_tokenize)
+    }
+
+    /// Advance the exact loaded state and logical head without invoking the
+    /// full-tokenization oracle. Callers may apply their own verification
+    /// schedule after this method returns; the candidate, snapshot, transcript
+    /// identity, and head are complete at that point.
+    #[allow(clippy::too_many_arguments)]
+    pub fn append_candidate<TokenizeRepair>(
+        &mut self,
+        iteration: usize,
+        delta_bytes: &[u8],
+        delta_du: &LoadedStream,
+        fixed_repair_depth: usize,
+        update_provenance: SnapshotProvenanceEventV0,
+        tokenize_repair_window: &mut TokenizeRepair,
+    ) -> Result<P1WarmBenchSample>
+    where
+        TokenizeRepair: FnMut(&[u8]) -> Result<Vec<NativeTokenPieceV0>>,
+    {
+        Ok(self
+            .advance_in_memory(
+                iteration,
+                delta_bytes,
+                delta_du,
+                fixed_repair_depth,
+                update_provenance,
+                tokenize_repair_window,
+            )?
+            .sample)
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -2471,6 +2538,7 @@ pub fn fold_checkpoint(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use nereids::NativeToken;
     use std::cell::Cell;
     use std::sync::atomic::{AtomicU64, Ordering};
 
@@ -2897,7 +2965,7 @@ mod tests {
     }
 
     #[test]
-    fn warm_appends_evolve_exact_state_without_renumbering_or_full_snapshot_clone() {
+    fn repeated_identical_delta_is_accepted_and_reuses_canonical_du_ids() {
         let (_dir, _checkpoint, _journal, loaded) = setup("warm-sequential");
         let accepted_head = loaded.head();
         let mut warm = P1WarmSession::from_loaded(loaded, accepted_head).unwrap();
@@ -2972,6 +3040,122 @@ mod tests {
         assert_eq!(
             warm.snapshot.creation_provenance.actor.as_ptr(),
             creation_actor
+        );
+    }
+
+    #[test]
+    fn exact_ingest_preserves_raw_utf8_native_spans_and_canonical_du_identity() {
+        let dir = TestDir::new("exact-ingest");
+        let path = dir.path("raw.prt");
+        let raw = "é é".as_bytes();
+        let native = TokenizerStream::new(
+            "tokenizer",
+            "tokenizer-sha256",
+            raw,
+            vec![
+                NativeToken::new(100, 0, 2, raw[0..2].to_vec()),
+                NativeToken::new(101, 2, 3, raw[2..3].to_vec()),
+                NativeToken::new(100, 3, 5, raw[3..5].to_vec()),
+            ],
+        )
+        .unwrap();
+        let checkpoint = create_checkpoint_from_exact_bytes(
+            &path,
+            raw,
+            P1ExactIngestV1 {
+                native_tokenization: native,
+                du_stream: stream(&[7, 8, 7], &["é".as_bytes(), b" ", "é".as_bytes()]),
+                dictionary_lineage: "raw-lineage".into(),
+                model_tokenizer: ModelTokenizerIdentityV0 {
+                    model_id: "model".into(),
+                    model_provenance: "model-sha256".into(),
+                    tokenizer_id: "tokenizer".into(),
+                    tokenizer_provenance: "tokenizer-sha256".into(),
+                },
+                creation_provenance: event(0),
+            },
+        )
+        .unwrap();
+
+        assert_eq!(checkpoint.snapshot.transcript_len, raw.len());
+        assert_eq!(
+            checkpoint.snapshot.transcript_sha256,
+            nereids::sha256_hex(raw)
+        );
+        assert_eq!(
+            checkpoint
+                .snapshot
+                .direct_id
+                .du_state
+                .reconstruct()
+                .unwrap(),
+            raw
+        );
+        assert_eq!(checkpoint.snapshot.direct_id.native_ids, [100, 101, 100]);
+        assert_eq!(checkpoint.snapshot.direct_id.du_state.ids, [7, 8, 7]);
+        assert_eq!(checkpoint.snapshot.dictionary_layers.next_id, 9);
+        assert_eq!(
+            open_checkpoint(&path).unwrap().snapshot,
+            checkpoint.snapshot
+        );
+    }
+
+    #[test]
+    fn distinct_utf8_warm_turns_are_oracled_and_preserve_max_plus_one_ids() {
+        let (_dir, _checkpoint, _journal, loaded) = setup("warm-distinct-utf8");
+        let accepted_head = loaded.head();
+        let mut warm = P1WarmSession::from_loaded(loaded, accepted_head).unwrap();
+        let oracle_calls = Cell::new(0usize);
+        let mut every_turn_oracle = |bytes: &[u8]| {
+            oracle_calls.set(oracle_calls.get() + 1);
+            oracle(bytes)
+        };
+
+        warm.append_verified(
+            1,
+            "éa".as_bytes(),
+            &stream(&[900, 901], &["é".as_bytes(), b"a"]),
+            1,
+            event(1),
+            &mut repair,
+            &mut every_turn_oracle,
+        )
+        .unwrap();
+        warm.append_verified(
+            2,
+            "猫é".as_bytes(),
+            &stream(&[902, 903], &["猫".as_bytes(), "é".as_bytes()]),
+            1,
+            event(2),
+            &mut repair,
+            &mut every_turn_oracle,
+        )
+        .unwrap();
+
+        assert_eq!(oracle_calls.get(), 2);
+        assert_eq!(
+            warm.snapshot.direct_id.du_state.reconstruct().unwrap(),
+            "abéa猫é".as_bytes()
+        );
+        assert_eq!(
+            warm.snapshot.direct_id.du_state.ids,
+            [41, 42, 43, 41, 44, 43]
+        );
+        assert_eq!(warm.snapshot.dictionary_layers.next_id, 45);
+        assert_eq!(warm.snapshot.dictionary_layers.lookup_exact(b"a"), Some(41));
+        assert_eq!(
+            warm.snapshot.dictionary_layers.lookup_exact("é".as_bytes()),
+            Some(43)
+        );
+        assert_eq!(
+            warm.snapshot
+                .dictionary_layers
+                .lookup_exact("猫".as_bytes()),
+            Some(44)
+        );
+        assert_eq!(
+            warm.snapshot.direct_id.native_ids,
+            oracle("abéa猫é".as_bytes()).unwrap()
         );
     }
 

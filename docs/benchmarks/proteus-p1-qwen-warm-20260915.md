@@ -94,15 +94,40 @@ generation or end-to-end inference speedups.
 
 At this small history, process/storage lifecycle dominates reopen cost.
 
-## Scale lanes
+## Distinct benchmark lanes
 
-Turn-depth stress and archive-size stress are separate experiments.
+These three lanes answer different questions and must not be combined into
+one workload claim.
 
-Turn-depth:
+### 1. Fixed-delta depth microstress
+
+Repeat one exact delta against the evolving state at:
 
     1 / 10 / 100 / 1k / 10k / 100k sequential appends
 
-Archive-size:
+This isolates turn-depth/state-growth behavior. Repetition does not model
+diverse conversation content.
+
+### 2. Manifest-driven sequential replay
+
+Replay a deterministic manifest of delta byte files, exact DU delta runs and
+source labels. Duplicate payload bytes are legal logical events; workload
+diversity is a property of the selected dataset, not an invariant enforced by
+replay. Load checkpoint/journal and workload files once, keep one session in
+memory, and mutate it sequentially without cloning full state per turn.
+Construct each candidate, transcript identity and logical head before any
+native-oracle call.
+
+Use `--oracle-every 1` for the certification lane. Scale/performance runs may
+use periodic checks (`--oracle-every N`), per-turn `force_oracle`, and the
+default final check. `--oracle-every 0 --no-final-oracle` makes no scheduled or
+automatic-final calls, although forced turns remain checked. Only a receipt
+whose every turn was actually oracle checked and matched may emit
+`ALL_TURNS_EXACT: true`.
+
+### 3. Archive-size / Hutter scaling
+
+Measure deterministic long-input scaling over:
 
 | Corpus | Exact bytes | SHA256 |
 |---|---:|---|
@@ -112,18 +137,30 @@ Archive-size:
 | enwik8 | 100,000,000 | 2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8 |
 | enwik9 | 1,000,000,000 | 159b85351e5f76e60cbe32e04c677847a9ecba3adc79addab6f4c6c7aa3744bc |
 
-Hutter/enwik is deterministic long-input stress, not a natural-conversation
-benchmark.
+Hutter enwik5 through enwik9 are deterministic long-input stress corpora.
+They are not conversation data and results from this lane are not
+conversation-workload claims.
 
-## Planned production boundary
+## Raw-byte ingest boundary
 
 Raw bytes -> canonical DU -> native adapter IDs/spans -> immutable Proteus
-checkpoint is a general Proteus ingest capability, not a benchmark-only
-fixture.
+checkpoint is general Proteus functionality, not benchmark-only code. P1
+exposes `create_checkpoint_from_exact_bytes` with explicit exact
+`TokenizerStream`, `LoadedStream`, model/tokenizer/provenance identity and DU
+lineage inputs. The `checkpoint-from-bytes` CLI consumes the corresponding
+native JSONL and existing Nereids DU-run artifacts. Proteus validates those
+artifacts but does not silently invoke providers, generate DUs or normalize
+the transcript.
 
 A future large-container implementation may use immutable logical chunks plus
 small authenticated indexes and range reads. Logical object identity must
 remain independent of physical file offsets or packing.
+
+P1 does not physically deduplicate duplicate delta payloads or encode REF
+records. Content-addressed physical deduplication/reference packing is
+compatible with a future container or P1.x because sequence, parent/head,
+transcript position and provenance—not payload storage location—define each
+logical event.
 
 ## Claim boundary
 
@@ -134,16 +171,17 @@ state, KV projection and cross-model continuation are outside Proteus P1.
 
 ## Oracle and workload policy
 
-An `ALL_TURNS_EXACT` result requires native-oracle verification on every
+An `ALL_TURNS_EXACT: true` result requires native-oracle verification on every
 measured turn unless exactness has been established by an independent proof.
 
 A final-only or sampled oracle is insufficient to claim that every
 intermediate native-ID state was exact, because subsequent state evolves from
 the prior accepted state.
 
-The repeated `word64` sequential lane is a controlled fixed-delta
-turn-depth microstress. It measures state-growth, validation, timing and RSS
-behavior. It is not a natural-conversation or diverse-content benchmark.
+The current configurable receipt states only the exact set and count of turns
+that were oracle verified. A later complete offline verification pass could
+certify an immutable replay receipt; that verifier is outside this P1 change.
 
-A separate diverse-turn replay lane will use distinct deterministic payloads
-and native-oracle verification on every turn.
+The repeated `word64` sequential lane is the controlled fixed-delta
+turn-depth microstress above. Any diverse-turn claim belongs to the selected
+manifest dataset, not to replay mechanics.

@@ -36,6 +36,30 @@ Canonical IDs are never renumbered by:
 
 Logical identity and physical packing are separate concepts.
 
+Repeated delta payload bytes are valid at different turns. They remain
+distinct logical events because their sequence, parent/head, transcript
+position and provenance differ, while any canonical DU lexemes they contain
+reuse existing canonical IDs normally. P1 does not physically deduplicate
+payloads and does not define REF records. Content-addressed physical
+deduplication or reference packing can be added by a future container/P1.x
+without changing logical identity or the PRT0/PJR0 formats defined here.
+
+## Exact raw-byte ingest
+
+Sequence-zero checkpoint creation is a reusable P1 capability. The
+`create_checkpoint_from_exact_bytes` library API accepts exact transcript
+bytes plus explicit Nereids native-token and DU streams, dictionary lineage,
+model/tokenizer provenance and creation provenance. It requires both streams
+to reconstruct the same raw bytes, validates exact native IDs and byte spans,
+builds the canonical base dictionary with immutable supplied IDs and
+`next_id = max + 1`, and then creates an immutable PRT0 file.
+
+Proteus performs no Unicode, whitespace or other normalization. It does not
+shell out and does not define a replacement DU algorithm. Native tokenization
+and DU generation remain explicit artifact/provider dependencies of the
+caller. Physical input paths and PRT0 section offsets do not participate in
+transcript, dictionary or checkpoint logical identity.
+
 ## Minimal physical layout
 
 A session initially consists of:

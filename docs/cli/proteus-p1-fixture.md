@@ -8,6 +8,41 @@ messages, inspection output, and append receipts.
 The examples below show arguments only. Build and execution are intentionally
 left to the repository's supported Rust environment.
 
+## Checkpoint from exact bytes
+
+~~~text
+proteus-p1-fixture checkpoint-from-bytes \
+  --transcript-bytes transcript.bin \
+  --du-run transcript.du-run \
+  --native-token-jsonl transcript.native.jsonl \
+  --model-id Qwen3-0.6B \
+  --model-provenance sha256:MODEL_WEIGHTS_HASH \
+  --tokenizer-id qwen3-native \
+  --tokenizer-provenance sha256:TOKENIZER_ARTIFACT_HASH \
+  --dictionary-lineage session-20260915 \
+  --actor ingest-worker \
+  --source exact-transcript-archive \
+  --checkpoint session.prt
+~~~
+
+This is the general raw-byte Proteus ingest path. The library API is
+`create_checkpoint_from_exact_bytes(path, transcript_bytes,
+P1ExactIngestV1)`. Its explicit inputs are a validated Nereids
+`TokenizerStream`, a reconstructing `LoadedStream` DU artifact, stable
+dictionary lineage, model/tokenizer identity and creation provenance. It
+validates exact bytes, hash, native IDs and byte spans, DU reconstruction and
+canonical base associations before using create-new PRT0 semantics. No text
+decoding, normalization, provider invocation or subprocess occurs in library
+code.
+
+Proteus does not currently generate native tokenization or a DU run. The CLI
+therefore requires `--native-token-jsonl` and `--du-run`. The native JSONL has
+one `{id, byte_start, byte_end, bytes_hex}` object per line. The DU run is the
+existing Nereids artifact directory containing `merged.dict`, `local_u16/`,
+and `gmap24/` or `gmap32/`. Both must reconstruct `--transcript-bytes`
+exactly. The four identity flags and the lineage/provenance flags are required;
+the output is never allowed to overwrite an existing checkpoint.
+
 ## Bootstrap from P0
 
 ~~~text
@@ -66,7 +101,7 @@ zero historical-rewrite counter, and stage timings. The reported
 `proteus_p1_append_total_wall_ns` is the sum of non-oracle append stages;
 `oracle_full_tokenize_wall_ns` is separate.
 
-## Warm benchmark
+## Fixed-delta depth microstress
 
 ~~~text
 proteus-p1-fixture warm-bench \
@@ -99,6 +134,97 @@ logical record head are complete. It includes validation, candidate building,
 native span and dictionary/DU updates, transcript identity, and logical record
 encoding. The interval is frozen before `oracle_full_tokenize_wall_ns` begins;
 it includes no checkpoint, journal, receipt, or delta-file I/O.
+
+This is a controlled fixed-delta turn-depth microstress, not a diverse
+conversation replay.
+
+## Manifest-driven sequential replay
+
+~~~text
+proteus-p1-fixture warm-replay \
+  --checkpoint session.prt \
+  --journal session.pjr \
+  --expected-head HEX_SHA256 \
+  --manifest turns.json \
+  --drop-tokens 8 \
+  --native-tokenizer-server http://127.0.0.1:8080 \
+  --oracle-every 1 \
+  --actor replay-worker \
+  --receipt replay-receipt.json
+~~~
+
+`turns.json` is strict JSON:
+
+~~~json
+{
+  "schema": "proteus-p1-diverse-replay-manifest-v1",
+  "turns": [
+    {
+      "delta_file": "turns/0001.bin",
+      "delta_du_run": "turns/0001.du-run",
+      "source": "user-turn-0001"
+    },
+    {
+      "delta_file": "turns/0002.bin",
+      "delta_du_run": "turns/0002.du-run",
+      "source": "assistant-turn-0002",
+      "force_oracle": true
+    }
+  ]
+}
+~~~
+
+Relative paths resolve against the manifest directory. Empty turns, empty
+source labels, unknown fields and DU/byte mismatches are rejected before
+replay. Repeated exact delta payloads are valid: each occurrence is a distinct
+logical event with its own sequence, parent/head, transcript position and
+provenance. Existing canonical DU lexemes reuse their existing canonical IDs
+normally. Workload diversity is a dataset property, not a replay invariant.
+All manifest and delta/DU file reads are complete before any
+`warm_compute_total_wall_ns` interval.
+
+The checkpoint/journal is loaded once and one detached session evolves in
+memory without a whole-state clone per turn. For every turn the candidate,
+native spans, canonical DU layer, exact transcript identity and logical head
+are fully constructed before any full native oracle call. The journal remains
+unchanged. Replay provenance is deterministic: append sequence plus the
+explicit `--actor` and per-turn `source`, with `unix_time_ns` fixed to zero.
+
+Oracle verification is a policy:
+
+- `--oracle-every N` defaults to `1`. `1` checks every turn, values greater
+  than `1` check turn numbers divisible by `N`, and `0` disables scheduled
+  periodic checks.
+- A manifest turn with `"force_oracle": true` is always checked.
+- The final turn is checked by default. `--no-final-oracle` disables only this
+  automatic final check; a scheduled or forced final turn is still checked.
+
+Thus `--oracle-every 0 --no-final-oracle` with no forced turns makes no full-
+tokenization oracle calls. The bounded repair-window tokenizer remains part of
+candidate construction.
+
+`--oracle-every 1` is the certification lane. Periodic, forced and final-only
+checks are the scale/performance lane. An ID mismatch is retained as
+`first_mismatch` while the detached performance replay continues; an oracle
+transport/protocol failure still fails the command.
+
+The receipt records `total_turns`, `oracle_calls`, the exact set and count of
+turns whose oracle comparison matched in `oracle_verified_turns`,
+`oracle_every`, final-request/final-verified state, forced turns, and the first
+mismatch. Every turn records the candidate native-ID SHA-256 (little-endian
+`u32` encoding), transcript SHA-256, logical head and whether it was oracle
+checked. The boolean
+`ALL_TURNS_EXACT: true` is emitted only when every turn was actually checked
+and matched. Sampled, periodic, final-only and no-oracle runs do not emit that
+field merely because all sampled checks passed. A later complete offline
+verifier may certify an immutable replay receipt, but P1 does not implement
+that verifier here.
+
+P1 stores each logical delta event independently. It does not physically
+deduplicate repeated payloads and has no REF records. Content-addressed
+physical deduplication/reference packing remains compatible with a future
+container or P1.x because logical event identity is independent of physical
+storage.
 
 ## Full audit
 

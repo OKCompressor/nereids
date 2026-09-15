@@ -7,7 +7,7 @@
 
 use anyhow::{bail, Context, Result};
 use nereids::direct_id::{construct_du_aware_repair_candidate, DirectIdSnapshotV2};
-use nereids::{sha256_hex, LoadedStream, TokenSpan};
+use nereids::{sha256_hex, LoadedStream, TokenSpan, TokenizerStream};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fs;
@@ -395,6 +395,44 @@ pub struct ProteusSnapshotV0 {
 }
 
 impl ProteusSnapshotV0 {
+    /// Initialize exact Proteus state from caller-supplied native-tokenizer
+    /// and DU artifacts. Proteus validates both streams against `prefix`; it
+    /// does not tokenize, generate DUs, normalize, or invoke a provider.
+    pub fn initialize_from_exact_streams(
+        prefix: &[u8],
+        native_stream: &TokenizerStream,
+        prefix_du: LoadedStream,
+        dictionary_lineage: impl Into<String>,
+        model_tokenizer: ModelTokenizerIdentityV0,
+        creation_provenance: SnapshotProvenanceEventV0,
+    ) -> Result<Self> {
+        if native_stream.tokenizer_name != model_tokenizer.tokenizer_id {
+            bail!(
+                "native tokenizer artifact identity {:?} does not match declared tokenizer ID {:?}",
+                native_stream.tokenizer_name,
+                model_tokenizer.tokenizer_id
+            );
+        }
+        if native_stream.tokenizer_provenance != model_tokenizer.tokenizer_provenance {
+            bail!(
+                "native tokenizer artifact provenance {:?} does not match declared tokenizer provenance {:?}",
+                native_stream.tokenizer_provenance,
+                model_tokenizer.tokenizer_provenance
+            );
+        }
+        let direct_id = DirectIdSnapshotV2::from_tokenizer_stream(prefix, native_stream, prefix_du)
+            .map_err(anyhow::Error::new)?;
+        Self::initialize(
+            prefix,
+            direct_id.native_ids,
+            direct_id.native_spans,
+            direct_id.du_state,
+            dictionary_lineage,
+            model_tokenizer,
+            creation_provenance,
+        )
+    }
+
     pub fn initialize(
         prefix: &[u8],
         native_ids: Vec<u32>,
