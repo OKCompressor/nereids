@@ -285,3 +285,22 @@ Archive-size scaling uses the exact Hutter ladder:
 
 Measurements should keep native-ID construction, incremental validation, full
 warm compute, reopen cost, bytes read, checkpoint size and peak RSS separate.
+
+## P1 optimization stop and Prometh handoff
+
+P1 optimization stops at the current exact baseline for this sprint.
+
+At the late 10k Qwen window:
+
+    history:               643,296 bytes
+    full native tokenizer: 469.257 ms
+    native-ID construction:  6.777 ms
+    full warm compute:       23.255 ms
+    warm ratio:              20.18x
+
+Warm validation still performs known history-wide work. That optimization is
+deferred rather than required for the Prometh inference-state investigation.
+
+The next sprint targets repeated model prefill through compatible persisted
+runtime/KV continuation state. Proteus remains the exact archive and active
+view source.
