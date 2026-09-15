@@ -185,3 +185,103 @@ certify an immutable replay receipt; that verifier is outside this P1 change.
 The repeated `word64` sequential lane is the controlled fixed-delta
 turn-depth microstress above. Any diverse-turn claim belongs to the selected
 manifest dataset, not to replay mechanics.
+
+## 10,000-turn exact depth result
+
+Receipt:
+
+    receipts/proteus-p1-qwen-true-warm-10k-20260915-222957/receipt.json
+
+Receipt SHA256:
+
+    02670c74ed1faf2b8acd77e11e97ca88ba20f111a02b2d738c009b049182c7f2
+
+This is a fixed-delta turn-depth microstress, not a natural-conversation
+benchmark.
+
+The initial transcript was 6,400 bytes. The same exact 64-byte test delta was
+then appended 10,001 times in one in-memory Proteus session. Final transcript
+size was 646,464 bytes.
+
+Every turn was verified against the Qwen native tokenizer oracle:
+
+    ALL_10001_IDS_EXACT=true
+    TRUE_WARM_10K_EXACT=PASS
+
+| Window | History | Full tokenizer | Native-ID | Validation | Warm total | Warm speedup |
+|---|---:|---:|---:|---:|---:|---:|
+| 2-101 | 9,696 B | 5.468 ms | 0.623 ms | 0.710 ms | 1.418 ms | 3.86x |
+| 902-1001 | 67,296 B | 32.957 ms | 1.062 ms | 1.717 ms | 2.904 ms | 11.35x |
+| 4902-5001 | 323,296 B | 198.024 ms | 3.110 ms | 6.533 ms | 9.957 ms | 19.89x |
+| 9902-10001 | 643,296 B | 469.257 ms | 6.777 ms | 15.722 ms | 23.255 ms | 20.18x |
+| all 10k | 326,496 B | 209.784 ms | 3.284 ms | 7.190 ms | 10.811 ms | 19.40x |
+
+Peak fixture-process RSS:
+
+    27,276 KiB
+    26.6 MiB
+
+At the late window, incremental validation is the dominant measured component
+of warm compute. This identifies validation as the next optimization target;
+it does not establish that all of that work can safely be removed.
+
+## Exact raw-byte ingest and diverse replay smoke
+
+Receipt:
+
+    receipts/proteus-p1-night-smoke-20260915-230246/replay.json
+
+Receipt SHA256:
+
+    02418ff77bd77e51b25305f0e7e37f1e65ced2b974becd1f822c744fc6e61601
+
+The smoke imported the exact 6,400-byte natural prefix with
+`checkpoint-from-bytes`, then replayed two distinct deltas in one detached
+in-memory session:
+
+    turn 1: word64, 64 bytes
+    turn 2: UTF-8 ñ, 2 bytes
+
+Both turns were oracle checked. Native IDs, native spans and DU lineage were
+exact. Candidate state was constructed before the oracle. The journal was not
+mutated.
+
+    ALL_TURNS_EXACT=true
+
+## Frozen P1 baseline backup
+
+Implementation baseline commit:
+
+    481595fd6e30afecc54f325c2f6f637976e9727f
+
+Annotated tag:
+
+    proteus-p1-ingest-replay-20260915
+    tag object a7650b3a56ee91190f297c6ef210cae518ed7bab
+
+Bundle:
+
+    /mnt/data_linux/IT/OKC-releases/proteus-p1-ingest-replay-20260915-481595f.bundle
+
+Bundle SHA256:
+
+    8fd40dd4be02cd97aedf82ad665b84f410621013abc119b1f37e5fec360d5dbd
+
+The bundle verifies as a complete Git history.
+
+## Next measured lanes
+
+The next turn-depth workload should use distinct deterministic payloads with a
+controlled size distribution. Workload diversity is a dataset property, not a
+Proteus replay invariant.
+
+Archive-size scaling uses the exact Hutter ladder:
+
+    enwik5      100,000 bytes
+    enwik6    1,000,000 bytes
+    enwik7   10,000,000 bytes
+    enwik8  100,000,000 bytes
+    enwik9 1,000,000,000 bytes
+
+Measurements should keep native-ID construction, incremental validation, full
+warm compute, reopen cost, bytes read, checkpoint size and peak RSS separate.
