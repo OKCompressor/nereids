@@ -29,3 +29,5 @@ Public benchmark notes summarize reproducible receipts without checking large ge
 Raw benchmark receipts and large generated artifacts remain outside the source tree unless a release explicitly publishes them.
 
 Source available. Receipts before claims.
+
+- [Direct-ID llama-server receipts — 2026-09-15](direct-id-llama-server-20260915.md)
