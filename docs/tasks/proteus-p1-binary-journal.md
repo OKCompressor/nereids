@@ -325,3 +325,113 @@ No later roadmap item is required to prove P1.
 See:
 
 [`docs/contracts/proteus-p1-storage.md`](../contracts/proteus-p1-storage.md)
+
+## Boundary to Prometh runtime state
+
+Proteus owns exact archived conversation state.
+
+Prometh is the later model-runtime state layer.
+
+Conceptually:
+
+~~~text
+large Proteus archive
+        |
+        v
+selected bounded active view
+        |
+        v
+exact native IDs
+        |
+        v
+Prometh runtime continuation state
+        |
+        v
+model
+~~~
+
+The intended future optimization is that a valid persisted runtime state can
+allow continuation from an already processed active prefix without replaying
+that whole prefix for every new turn.
+
+The strongest exact future case is model-specific KV/prefix state.
+
+Exact KV reuse requires compatibility including at least:
+
+~~~text
+same model architecture
+same weights
+same exact native token prefix
+same chat/rendering policy
+same positional state
+same relevant runtime policy
+compatible KV representation/backend
+~~~
+
+When those conditions hold and the runtime exposes sufficient state, a future
+Prometh append may approach:
+
+~~~text
+load compatible continuation state
++
+process only newly appended model tokens
+~~~
+
+instead of:
+
+~~~text
+re-tokenize archive
++
+prefill complete active prefix
++
+process new tokens
+~~~
+
+Proteus P1 does not yet implement this.
+
+A large archived conversation therefore does not imply that all archived
+tokens are simultaneously resident in model context.
+
+If the active view changes and no compatible saved runtime state exists for
+the required prefix, the newly selected prefix must be prefetched/recomputed
+or loaded from another compatible state checkpoint.
+
+Generic hidden-state or learned cross-model projections are not considered
+exact continuation state unless separately proven.
+
+Future learned projection lanes remain approximate by default.
+
+## Scale ladder
+
+In addition to the original P1 sizes, the large-history lane should eventually
+measure:
+
+~~~text
+4 KiB
+64 KiB
+1 MiB
+10 MiB
+100 MiB
+1 GiB
+~~~
+
+using a bounded-size append/delta.
+
+The hypothesis under test is:
+
+~~~text
+Proteus append work
+approximately follows:
+  new delta
+  + bounded tokenizer repair
+  + bounded/index update work
+
+rather than:
+  complete archived-history size
+~~~
+
+This is a benchmark hypothesis, not a claim until receipts exist.
+
+Model inference timing remains a separate lane because without compatible
+runtime-state reuse, transformer prefill cost still depends on the active
+model context.

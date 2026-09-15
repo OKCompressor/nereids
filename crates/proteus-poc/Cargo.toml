@@ -3,7 +3,7 @@ name = "proteus-poc"
 version = "0.1.0"
 edition = "2021"
 license = "LicenseRef-LNCL-1.2"
-description = "Proteus P0 snapshot/delta exactness proof over Nereids Direct-ID V2"
+description = "Proteus P0 exactness and P1 binary persistence proof over Nereids Direct-ID V2"
 
 [lib]
 name = "proteus_poc"
@@ -13,9 +13,16 @@ path = "src/lib.rs"
 name = "proteus-p0-fixture"
 path = "src/bin/proteus-p0-fixture.rs"
 
+[[bin]]
+name = "proteus-p1-fixture"
+path = "src/bin/proteus-p1-fixture.rs"
+
 [dependencies]
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 nereids = { path = "../.." }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+sha2 = "0.10"
+hex = "0.4"
+libc = "0.2"

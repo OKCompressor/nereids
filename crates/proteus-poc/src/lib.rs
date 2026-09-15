@@ -1,4 +1,4 @@
-//! Proteus P0 snapshot/delta orchestration over sealed Nereids Direct-ID V2.
+//! Proteus P0 exactness orchestration and P1 persistence over sealed Nereids Direct-ID V2.
 //!
 //! This crate operates on exact, already-rendered conversation bytes. It does
 //! not render chat templates and it does not make bounded model context
@@ -14,6 +14,8 @@ use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
+
+pub mod p1;
 
 pub const SNAPSHOT_SCHEMA: &str = "proteus-snapshot-v0";
 pub const SNAPSHOT_VERSION: u32 = 0;
@@ -564,6 +566,7 @@ where
         tokenize_repair_window,
         total_started,
         &mut timings,
+        true,
     )
 }
 
@@ -589,6 +592,36 @@ where
         tokenize_repair_window,
         total_started,
         &mut timings,
+        true,
+    )
+}
+
+/// Build the exact next state without invoking the P0 JSON persistence layer.
+///
+/// This is crate-internal plumbing for the Proteus-owned P1 binary journal.
+pub(crate) fn resume_snapshot_in_memory_unserialized<TokenizeRepair>(
+    snapshot: &ProteusSnapshotV0,
+    delta_bytes: &[u8],
+    delta_du: &LoadedStream,
+    fixed_repair_depth: usize,
+    update_provenance: SnapshotProvenanceEventV0,
+    tokenize_repair_window: &mut TokenizeRepair,
+) -> Result<ResumeArtifactV0>
+where
+    TokenizeRepair: FnMut(&[u8]) -> Result<Vec<NativeTokenPieceV0>>,
+{
+    let total_started = Instant::now();
+    let mut timings = ProteusResumeTimingsV0::default();
+    resume_inner(
+        snapshot.clone(),
+        delta_bytes,
+        delta_du,
+        fixed_repair_depth,
+        update_provenance,
+        tokenize_repair_window,
+        total_started,
+        &mut timings,
+        false,
     )
 }
 
@@ -602,6 +635,7 @@ fn resume_inner<TokenizeRepair>(
     tokenize_repair_window: &mut TokenizeRepair,
     total_started: Instant,
     timings: &mut ProteusResumeTimingsV0,
+    serialize_json: bool,
 ) -> Result<ResumeArtifactV0>
 where
     TokenizeRepair: FnMut(&[u8]) -> Result<Vec<NativeTokenPieceV0>>,
@@ -748,9 +782,14 @@ where
         constructed_without_oracle_ids: true,
     };
 
-    let serialize_started = Instant::now();
-    let serialized_snapshot = updated_snapshot.to_json_vec()?;
-    timings.snapshot_serialize_wall_ns = serialize_started.elapsed().as_nanos();
+    let serialized_snapshot = if serialize_json {
+        let serialize_started = Instant::now();
+        let bytes = updated_snapshot.to_json_vec()?;
+        timings.snapshot_serialize_wall_ns = serialize_started.elapsed().as_nanos();
+        bytes
+    } else {
+        Vec::new()
+    };
     timings.proteus_resume_total_wall_ns = total_started.elapsed().as_nanos();
 
     Ok(ResumeArtifactV0 {
