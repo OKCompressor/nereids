@@ -72,11 +72,110 @@ pub struct SpanLedgerReport {
     pub span_samples: Vec<SpanSample>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct LoadedStream {
     pub ids: Vec<u64>,
     pub parts: Vec<Vec<u8>>,
     pub bounds: Vec<usize>,
+}
+
+impl LoadedStream {
+    /// Validate the structural relationship between DU IDs, lexeme bytes, and
+    /// byte boundaries without requiring an independent raw byte buffer.
+    pub fn validate_structure(&self) -> Result<()> {
+        if self.ids.len() != self.parts.len() {
+            bail!(
+                "loaded stream has {} IDs but {} byte parts",
+                self.ids.len(),
+                self.parts.len()
+            );
+        }
+        if self.bounds.len() != self.parts.len() + 1 {
+            bail!(
+                "loaded stream has {} byte parts but {} boundaries",
+                self.parts.len(),
+                self.bounds.len()
+            );
+        }
+        if self.bounds.first().copied() != Some(0) {
+            bail!("loaded stream first boundary is not zero");
+        }
+
+        let mut expected_end = 0usize;
+        for (index, part) in self.parts.iter().enumerate() {
+            expected_end = expected_end
+                .checked_add(part.len())
+                .ok_or_else(|| anyhow!("loaded stream byte length overflow"))?;
+            if self.bounds[index + 1] != expected_end {
+                bail!(
+                    "loaded stream part {} ends at boundary {}, expected {}",
+                    index,
+                    self.bounds[index + 1],
+                    expected_end
+                );
+            }
+        }
+        Ok(())
+    }
+
+    pub fn byte_len(&self) -> Result<usize> {
+        self.validate_structure()?;
+        Ok(self.bounds.last().copied().unwrap_or(0))
+    }
+
+    /// Reconstruct the canonical bytes represented by the loaded DU stream.
+    pub fn reconstruct(&self) -> Result<Vec<u8>> {
+        let byte_len = self.byte_len()?;
+        let mut bytes = Vec::with_capacity(byte_len);
+        for part in &self.parts {
+            bytes.extend_from_slice(part);
+        }
+        Ok(bytes)
+    }
+
+    /// Reconstruct an arbitrary byte range, including ranges whose endpoints
+    /// fall inside DU lexemes.
+    pub fn reconstruct_range(&self, start: usize, end: usize) -> Result<Vec<u8>> {
+        let byte_len = self.byte_len()?;
+        if start > end || end > byte_len {
+            bail!(
+                "loaded stream byte range {}..{} is outside 0..{}",
+                start,
+                end,
+                byte_len
+            );
+        }
+
+        self.reconstruct_validated_range(start, end)
+    }
+
+    pub(crate) fn reconstruct_validated_range(&self, start: usize, end: usize) -> Result<Vec<u8>> {
+        if start == end {
+            return Ok(Vec::new());
+        }
+
+        let mut bytes = Vec::with_capacity(end - start);
+        let first_part = upper_bound(&self.bounds, start).saturating_sub(1);
+        for (index, part) in self.parts.iter().enumerate().skip(first_part) {
+            let part_start = self.bounds[index];
+            let part_end = self.bounds[index + 1];
+            if part_start >= end {
+                break;
+            }
+            let copy_start = start.saturating_sub(part_start);
+            let copy_end = end.min(part_end) - part_start;
+            bytes.extend_from_slice(&part[copy_start..copy_end]);
+        }
+        if bytes.len() != end - start {
+            bail!(
+                "loaded stream reconstructed {} bytes for requested range {}..{}",
+                bytes.len(),
+                start,
+                end
+            );
+        }
+        Ok(bytes)
+    }
 }
 
 pub fn bytes_to_hex(bytes: &[u8]) -> String {

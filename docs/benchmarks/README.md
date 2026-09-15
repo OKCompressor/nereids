@@ -37,3 +37,4 @@ Source available. Receipts before claims.
 - [Direct-ID append repair receipts — 2026-09-15](direct-id-repair-tail-20260915.md)
 
 - [Direct-ID V1 bounded append repair — 2026-09-15](direct-id-v1-acceptance-20260915.md)
+- [Direct-ID V2 DU-aware acceptance — 2026-09-15](direct-id-v2-du-aware-20260915.md)

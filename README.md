@@ -229,3 +229,34 @@ Nereids is **source-available under the Luna Non-Commercial License 1.2
 This is not an OSI open-source license.
 
 See [`LICENSE.md`](LICENSE.md).
+
+### DU-aware Direct-ID V2
+
+Direct-ID V2 extends the bounded append-repair path with persisted native token
+byte spans and Nereids DU structural state.
+
+The candidate path is designed to:
+
+- recover exact appended bytes from DU structure,
+- locate the mutable native-token boundary from persisted byte spans,
+- retokenize only the repair tail + appended delta,
+- splice the repaired suffix onto the preserved native-ID prefix,
+- avoid full-prefix detokenization during candidate construction, and
+- avoid full tokenization of `prefix || delta` except as a verification oracle.
+
+V2 preserves the Direct-ID contract: the resulting IDs must equal the model
+tokenizer's canonical native IDs exactly.
+
+In the 144-case Qwen3.5-9B + Mistral-Nemo acceptance matrix, V2 reproduced
+the canonical native IDs exactly using fixed, oracle-independent repair
+policies. Median total candidate-preparation savings versus full native
+retokenization were 90.5% for Qwen3.5-9B and
+90.8% for Mistral-Nemo.
+
+These are preprocessing measurements, not end-to-end inference speedups.
+
+See:
+[`docs/benchmarks/direct-id-v2-du-aware-20260915.md`](docs/benchmarks/direct-id-v2-du-aware-20260915.md)
+
+Previous validated Direct-ID results:
+[`docs/benchmarks/direct-id-v1-acceptance-20260915.md`](docs/benchmarks/direct-id-v1-acceptance-20260915.md)
