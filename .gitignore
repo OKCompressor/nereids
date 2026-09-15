@@ -26,3 +26,6 @@ CODEX_TASK.md
 
 __pycache__/
 *.py[cod]
+
+# Proteus local Cargo build artifacts
+/crates/proteus-poc/target/

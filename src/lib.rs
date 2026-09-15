@@ -149,6 +149,47 @@ impl LoadedStream {
         self.reconstruct_validated_range(start, end)
     }
 
+    /// Concatenate two validated structural streams without changing either
+    /// stream's DU IDs or lexeme bytes.
+    ///
+    /// Suffix boundaries are shifted by the exact byte length of `self`.
+    /// This is intentionally the only composition performed here; dictionary
+    /// lineage policy belongs to the caller.
+    pub fn concatenate(&self, suffix: &Self) -> Result<Self> {
+        let prefix_len = self.byte_len()?;
+        suffix.validate_structure()?;
+        let token_count = self
+            .ids
+            .len()
+            .checked_add(suffix.ids.len())
+            .ok_or_else(|| anyhow!("loaded stream concatenation token count overflow"))?;
+        let boundary_count = token_count
+            .checked_add(1)
+            .ok_or_else(|| anyhow!("loaded stream concatenation boundary count overflow"))?;
+
+        let mut ids = Vec::with_capacity(token_count);
+        ids.extend_from_slice(&self.ids);
+        ids.extend_from_slice(&suffix.ids);
+
+        let mut parts = Vec::with_capacity(token_count);
+        parts.extend(self.parts.iter().cloned());
+        parts.extend(suffix.parts.iter().cloned());
+
+        let mut bounds = Vec::with_capacity(boundary_count);
+        bounds.extend_from_slice(&self.bounds);
+        for boundary in suffix.bounds.iter().skip(1) {
+            bounds.push(
+                prefix_len
+                    .checked_add(*boundary)
+                    .ok_or_else(|| anyhow!("loaded stream concatenation byte length overflow"))?,
+            );
+        }
+
+        let combined = Self { ids, parts, bounds };
+        combined.validate_structure()?;
+        Ok(combined)
+    }
+
     pub(crate) fn reconstruct_validated_range(&self, start: usize, end: usize) -> Result<Vec<u8>> {
         if start == end {
             return Ok(Vec::new());
@@ -754,5 +795,29 @@ mod tests {
         let report = span_ledger_report(&target, &du, b"abc", 1, 100, 0);
         assert_eq!(report.target_tokens_exactly_on_du_boundaries, 1);
         assert_eq!(report.max_du_tokens_covered_by_one_target_token, 3);
+    }
+
+    #[test]
+    fn loaded_stream_concatenation_shifts_exact_boundaries() {
+        let prefix = stream(&[10, 11], &[b"ab", b"c"]);
+        let suffix = stream(&[20, 21], &[b"def", b"g"]);
+
+        let combined = prefix.concatenate(&suffix).unwrap();
+
+        assert_eq!(combined.ids, [10, 11, 20, 21]);
+        assert_eq!(combined.bounds, [0, 2, 3, 6, 7]);
+        assert_eq!(combined.reconstruct().unwrap(), b"abcdefg");
+    }
+
+    #[test]
+    fn loaded_stream_concatenation_rejects_malformed_suffix() {
+        let prefix = stream(&[10], &[b"ab"]);
+        let malformed = LoadedStream {
+            ids: vec![20],
+            parts: vec![b"c".to_vec()],
+            bounds: vec![0, 2],
+        };
+
+        assert!(prefix.concatenate(&malformed).is_err());
     }
 }
