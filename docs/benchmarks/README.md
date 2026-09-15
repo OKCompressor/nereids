@@ -33,3 +33,5 @@ Source available. Receipts before claims.
 - [Direct-ID llama-server receipts — 2026-09-15](direct-id-llama-server-20260915.md)
 
 - [Direct-ID Adapter V0 fixture receipt — 2026-09-15](direct-id-v0-fixture-20260915.md)
+
+- [Direct-ID append repair receipts — 2026-09-15](direct-id-repair-tail-20260915.md)
