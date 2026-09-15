@@ -6,6 +6,7 @@ use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 mod bridge;
+pub mod direct_id;
 mod du_remap;
 
 pub use bridge::*;
