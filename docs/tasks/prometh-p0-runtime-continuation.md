@@ -184,3 +184,49 @@ corresponding uninterrupted/full-prefill baseline under frozen model/runtime
 conditions.
 
 No end-to-end speed claim is made before those receipts exist.
+
+## Sprint focus
+
+Proteus P1 optimization is intentionally deferred.
+
+Known future Proteus work includes removing history-wide validation from the
+warm append path and, if scale receipts require it, replacing whole-state
+materialization with indexed/range-loaded immutable chunks.
+
+Those changes are not prerequisites for Prometh P0. The measured Proteus P1
+path already establishes exact incremental state advancement and a clear
+advantage over full retokenization at the tested Qwen history sizes.
+
+Prometh P0 now focuses exclusively on inference-side continuation:
+
+    exact Proteus active-prefix identity
+    -> compatible saved model runtime state
+    -> restore state
+    -> process only new/changed suffix
+    -> deterministic continuation equivalence
+
+## Future physical packing
+
+Proteus logical state and Prometh runtime-state objects must remain independent
+from physical packing.
+
+Future OKC/container integration may losslessly:
+
+- chunk;
+- compress;
+- deduplicate;
+- content-address;
+- pack;
+- range-load;
+- relocate
+
+Proteus transcript/DU/native state and opaque Prometh runtime-state blobs
+without changing their logical identities.
+
+For Prometh, a physical KV/state blob is not self-describing proof of
+compatibility. Its descriptor must bind at least the exact native prefix,
+model/weights identity, runtime compatibility identity, positional state and
+KV/state representation required for restoration.
+
+Lossy compression, cross-model projection and learned state conversion are not
+part of the exact P0 lane.
